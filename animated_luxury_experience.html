@@ -107,7 +107,7 @@
         body {
             background-color: #131313;
             color: #e5e2e1;
-            overflow-x: hidden;
+            overflow-x: clip;
             scroll-behavior: smooth;
         }
         .glass-panel {
@@ -172,7 +172,7 @@
     html,
     body {
         width: 100%;
-        overflow-x: hidden;
+        overflow-x: clip;
     }
     
     canvas {
@@ -265,6 +265,24 @@
                     <a class="border border-primary/50 text-primary px-10 py-4 font-label-caps text-label-caps tracking-[0.3em] hover:bg-primary/10 hover:scale-105 active:scale-95 transition-all backdrop-blur-sm" href="#menu">VIEW MENU</a>
                 </div>
             </div>
+        </div>
+        
+        <!-- REAL CANOPPY ROOFTOP PHOTO OVERLAY -->
+        <div id="real-rooftop-overlay" class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-300" style="z-index: 5;" aria-hidden="true">
+            <!-- Photo layer -->
+            <div id="rooftop-photo-layer" class="absolute inset-0 w-full h-full overflow-hidden">
+                <img
+                    id="rooftop-hero-img"
+                    src="assets/images/canoppy-aerial-night.jpg.webp"
+                    alt="Canoppy Chandrapur rooftop aerial night view"
+                    class="w-full h-full"
+                    style="object-fit:cover;object-position:center;transform:scale(1.08);will-change:transform;"
+                />
+            </div>
+            <!-- Dark luxury overlay -->
+            <div class="absolute inset-0" style="background:linear-gradient(to bottom, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0.45) 60%, rgba(5,5,5,0.72) 100%);"></div>
+            <!-- Golden glow accent -->
+            <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 45% at 50% 80%, rgba(212,175,55,0.10) 0%, transparent 70%);"></div>
         </div>
         
         <!-- Fullscreen sunset dive overlay -->
@@ -1537,7 +1555,6 @@
 
             // 1. Scene & Camera Setup
             scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x0c0d12, 0.0015);
             camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2500);
             camera.position.z = 1000;
 
