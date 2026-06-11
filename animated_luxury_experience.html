@@ -1095,25 +1095,43 @@
 <h2 class="font-display-md text-headline-lg md:text-display-md mb-4">Secure Your Table</h2>
 <p class="text-on-surface-variant font-body-md">Book your journey through the golden hour.</p>
 </div>
-<form class="space-y-8 relative z-10">
+<form id="whatsapp-reservation-form" class="space-y-8 relative z-10">
 <div class="grid md:grid-cols-2 gap-8">
 <div class="relative group">
-<input class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Your Name" type="text"/>
+<input id="res-name" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Your Name" type="text"/>
+<div id="err-name" class="text-error text-xs hidden absolute -bottom-5">Name is required</div>
 </div>
 <div class="relative group">
-<input class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Email Address" type="email"/>
+<input id="res-mobile" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Mobile Number" type="tel"/>
+<div id="err-mobile" class="text-error text-xs hidden absolute -bottom-5">Valid mobile number is required</div>
 </div>
 <div class="relative group">
-<input class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md" type="date"/>
+<input id="res-email" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Email Address" type="email"/>
 </div>
 <div class="relative group">
-<select class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md">
+<input id="res-date" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md" type="date"/>
+<div id="err-date" class="text-error text-xs hidden absolute -bottom-5">Date is required</div>
+</div>
+<div class="relative group">
+<input id="res-time" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md" type="time"/>
+</div>
+<div class="relative group">
+<select id="res-guests" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md">
+<option value="" disabled selected hidden>Number of Guests</option>
+<option value="1">1 Guest</option>
 <option value="2">2 Guests</option>
+<option value="3">3 Guests</option>
 <option value="4">4 Guests</option>
-<option value="6">6+ Guests</option>
+<option value="5">5 Guests</option>
+<option value="6+">6+ Guests</option>
 </select>
+<div id="err-guests" class="text-error text-xs hidden absolute -bottom-5">Guest count is required</div>
+</div>
+<div class="relative group md:col-span-2">
+<input id="res-special" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Any Special Requests? (Optional)" type="text"/>
 </div>
 </div>
+<div id="res-success" class="text-primary font-body-md text-center hidden">Redirecting to WhatsApp to complete your reservation...</div>
 <button class="w-full bg-primary text-on-primary py-6 font-label-caps text-label-caps tracking-[0.5em] hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/10" type="submit">CONFIRM RESERVATION</button>
 </form>
 </div>
@@ -2155,5 +2173,87 @@
             const cz = r * Math.sin(phi) * Math.cos(theta);
             return new THREE.Vector3(cx, cy, cz);
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('whatsapp-reservation-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    let isValid = true;
+                    
+                    const nameInput = document.getElementById('res-name');
+                    const errName = document.getElementById('err-name');
+                    if (!nameInput.value.trim()) {
+                        errName.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        errName.classList.add('hidden');
+                    }
+                    
+                    const mobileInput = document.getElementById('res-mobile');
+                    const errMobile = document.getElementById('err-mobile');
+                    const mobileVal = mobileInput.value.trim();
+                    if (!mobileVal || !/^[0-9+\-\\s()]{7,15}$/.test(mobileVal)) {
+                        errMobile.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        errMobile.classList.add('hidden');
+                    }
+                    
+                    const dateInput = document.getElementById('res-date');
+                    const errDate = document.getElementById('err-date');
+                    if (!dateInput.value) {
+                        errDate.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        errDate.classList.add('hidden');
+                    }
+                    
+                    const guestsInput = document.getElementById('res-guests');
+                    const errGuests = document.getElementById('err-guests');
+                    if (!guestsInput.value) {
+                        errGuests.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        errGuests.classList.add('hidden');
+                    }
+                    
+                    if (!isValid) return;
+                    
+                    const emailVal = document.getElementById('res-email').value.trim();
+                    const timeVal = document.getElementById('res-time').value.trim();
+                    const specialVal = document.getElementById('res-special').value.trim();
+                    const btn = form.querySelector('button[type="submit"]');
+                    const successMsg = document.getElementById('res-success');
+                    
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    successMsg.classList.remove('hidden');
+                    
+                    const message = `🍽️ NEW TABLE RESERVATION\n\nName: ${nameInput.value.trim()}\nMobile: ${mobileVal}\nEmail: ${emailVal || 'N/A'}\n\nDate: ${dateInput.value}\nTime: ${timeVal || 'N/A'}\nGuests: ${guestsInput.value}\n\nSpecial Request:\n${specialVal || 'None'}\n\nSent from CANOPPY Website`;
+                    
+                    const encodedMessage = encodeURIComponent(message);
+                    const whatsappNumber = "917020916246";
+                    
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    let url = "";
+                    if (isMobile) {
+                        url = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+                    } else {
+                        url = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+                    }
+                    
+                    setTimeout(() => {
+                        window.open(url, '_blank');
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        successMsg.classList.add('hidden');
+                        form.reset();
+                    }, 1000);
+                });
+            }
+        });
     </script>
 </body></html>
