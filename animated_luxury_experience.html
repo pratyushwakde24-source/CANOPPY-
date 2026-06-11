@@ -159,6 +159,14 @@
         @media (max-width: 480px) {
             #story-frame-3 h1 { font-size: 2rem; line-height: 1.2; }
         }
+        /* ---- Menu card visibility safety ---- */
+        /* Base opacity is 1. GSAP will temporarily set inline opacity:0 for the
+           enter animation, then clearProps removes the inline style so this base
+           value of 1 is restored. Cards can never be left stuck below opacity 1. */
+        .menu-item-card {
+            opacity: 1;
+            will-change: opacity, transform;
+        }
     </style>
 <style>
     body {
@@ -1973,7 +1981,7 @@
                     gsap.killTweensOf(visibleCards);
                     gsap.fromTo(visibleCards, 
                         { opacity: 0, y: 15 },
-                        { opacity: 1, y: 0, duration: 0.4, stagger: 0.02, ease: "power1.out", overwrite: "auto" }
+                        { opacity: 1, y: 0, duration: 0.4, stagger: 0.02, ease: "power1.out", overwrite: "auto", clearProps: "opacity,transform" }
                     );
                 }
                 
@@ -2020,18 +2028,27 @@
             // GSAP ScrollTrigger for Category Section Animations
             categorySections.forEach(section => {
                 const cards = section.querySelectorAll('.menu-item-card');
-                gsap.from(cards, {
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 85%",
-                        toggleActions: "play none none none"
-                    },
-                    opacity: 0,
-                    y: 25,
-                    duration: 0.6,
-                    stagger: 0.04,
-                    ease: "power2.out"
-                });
+
+                // Use fromTo with clearProps:'all' so EVERY card is guaranteed
+                // to land at opacity:1, y:0 regardless of stagger timing.
+                gsap.fromTo(cards,
+                    { opacity: 0, y: 20 },
+                    {
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 88%",
+                            toggleActions: "play none none none",
+                            once: true
+                        },
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.55,
+                        stagger: 0.04,
+                        ease: "power2.out",
+                        clearProps: "opacity,transform",
+                        immediateRender: false
+                    }
+                );
 
                 // Scroll Active Tabs Highlighting
                 const id = section.getAttribute('id');
