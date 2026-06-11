@@ -177,52 +177,12 @@
     
     canvas {
         display: block;
-        width: 100vw !important;
-        height: 100vh !important;
     }
     
     .globe-container {
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-    }
-
-    .cloud-layer {
-        position: absolute;
-        width: 150vw;
-        height: 150vh;
-        left: -25vw;
-        will-change: transform, opacity;
-        pointer-events: none;
-    }
-
-    /* Soft gradients mimicking clouds without CSS filter: blur() for 60fps performance */
-    #cloud-layer-1 {
-        background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(255, 245, 225, 0.8) 30%, rgba(255, 255, 255, 0) 70%);
-        opacity: 0.9;
-        transform: scale(0.5);
-        top: -15vh;
-    }
-
-    #cloud-layer-2 {
-        background: radial-gradient(ellipse at 30% 60%, rgba(255, 255, 255, 1) 0%, rgba(255, 235, 195, 0.9) 25%, rgba(255, 255, 255, 0) 60%);
-        opacity: 0.8;
-        transform: scale(0.6);
-        top: -20vh;
-    }
-
-    #cloud-layer-3 {
-        background: radial-gradient(ellipse at 70% 40%, rgba(255, 255, 255, 1) 0%, rgba(255, 245, 225, 0.9) 25%, rgba(255, 255, 255, 0) 65%);
-        opacity: 0.9;
-        transform: scale(0.7);
-        top: -25vh;
-    }
-
-    #cloud-layer-4 {
-        background: radial-gradient(ellipse at 50% 70%, rgba(255, 255, 255, 1) 0%, rgba(255, 240, 210, 0.9) 35%, rgba(255, 255, 255, 0) 75%);
-        opacity: 0.95;
-        transform: scale(0.8);
-        top: -30vh;
     }
 
     body {
@@ -307,13 +267,8 @@
             </div>
         </div>
         
-        <!-- Cloud Descent Transition Container -->
-        <div id="cloud-transition-container" class="absolute inset-0 pointer-events-none opacity-0 z-30 overflow-hidden">
-            <div class="cloud-layer" id="cloud-layer-1"></div>
-            <div class="cloud-layer" id="cloud-layer-2"></div>
-            <div class="cloud-layer" id="cloud-layer-3"></div>
-            <div class="cloud-layer" id="cloud-layer-4"></div>
-        </div>
+        <!-- Fullscreen sunset dive overlay -->
+        <div id="transition-overlay" class="absolute inset-0 pointer-events-none opacity-0 z-30 bg-gradient-to-b from-[#FF8C00] via-[#D4AF37] to-[#131313] mix-blend-normal"></div>
     </div>
 </section>
 <!-- Main Content Wrapper (Hidden initially during space zoom) -->
@@ -1582,6 +1537,7 @@
 
             // 1. Scene & Camera Setup
             scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x0c0d12, 0.0015);
             camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2500);
             camera.position.z = 1000;
 
@@ -1723,14 +1679,14 @@
             });
 
             // Scatter cloud sprites over Chandrapur at cloud altitude
-            const cloudCount = 30;
+            const cloudCount = 150;
             for (let i = 0; i < cloudCount; i++) {
-                const spreadTheta = (Math.random() - 0.5) * 0.16;
-                const spreadPhi = (Math.random() - 0.5) * 0.16;
+                const spreadTheta = (Math.random() - 0.5) * 0.25;
+                const spreadPhi = (Math.random() - 0.5) * 0.25;
                 
                 const cLat = 19.9615 + (spreadTheta * 180 / Math.PI);
                 const cLon = 79.2961 + (spreadPhi * 180 / Math.PI);
-                const cloudAlt = 207 + Math.random() * 9;
+                const cloudAlt = 205 + Math.random() * 35;
                 
                 const cloudPos = latLonToVector3(cLat, cLon, cloudAlt);
                 const cloudSprite = new THREE.Sprite(cloudMat.clone());
@@ -1867,33 +1823,26 @@
                 duration: 0.42
             }, 0.35);
 
-            // 3. Atmosphere Entry: Cloud container fades in (Progress 0.60 -> 0.75)
-            tl.to("#cloud-transition-container", {
+            // 3. Sunset overlay transition (screen wipe): progress 0.72 -> 0.80 (fully opaque at 0.80)
+            tl.to("#transition-overlay", {
                 opacity: 1.0,
-                ease: "power1.inOut",
-                duration: 0.15
-            }, 0.60);
+                ease: "none",
+                duration: 0.08
+            }, 0.72);
 
-            // Cloud layer parallax and scaling
-            // Layer 1 & 2 move faster and scale more (foreground clouds passing by)
-            tl.to("#cloud-layer-1", { scale: 3.5, yPercent: -40, opacity: 0, ease: "power2.in", duration: 0.25 }, 0.60);
-            tl.to("#cloud-layer-2", { scale: 3.0, yPercent: -30, opacity: 0, ease: "power2.in", duration: 0.28 }, 0.60);
-            
-            // Layer 3 & 4 create the dense whiteout at 0.75-0.80, then clear at 0.85-0.95
-            tl.to("#cloud-layer-3", { scale: 2.0, yPercent: -20, ease: "none", duration: 0.20 }, 0.60);
-            tl.to("#cloud-layer-4", { scale: 1.8, yPercent: -10, ease: "none", duration: 0.20 }, 0.60);
-
-            // 4. Cloud Clearing (First Reveal & Final Arrival): Progress 0.80 -> 0.95
-            // At 0.80, rooftop photo is switched on underneath automatically by the onUpdate handler.
-            tl.to("#cloud-layer-3", { scale: 4.0, opacity: 0, ease: "power2.inOut", duration: 0.10 }, 0.80);
-            tl.to("#cloud-layer-4", { scale: 3.0, opacity: 0, ease: "power2.inOut", duration: 0.15 }, 0.80);
-
-            // Fade out the entire container as a safety measure
-            tl.to("#cloud-transition-container", {
+            // 4. Fade out sunset transition overlay: progress 0.80 -> 0.90
+            tl.to("#transition-overlay", {
                 opacity: 0.0,
                 ease: "none",
-                duration: 0.05
-            }, 0.95);
+                duration: 0.10
+            }, 0.80);
+
+            // 5. Rooftop landing reveal glide: progress 0.80 -> 1.0
+            tl.to(animParams, {
+                rooftopProgress: 1.0,
+                ease: "power1.out",
+                duration: 0.20
+            }, 0.80);
 
 
             // --- Start Animation Loop ---
