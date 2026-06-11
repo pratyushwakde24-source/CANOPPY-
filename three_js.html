@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_1 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_1" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_1');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  // Three.js Zoom Animation: Space to Chandrapur Rooftop
+// Tier 4: Three.js Scene
+
+let scene, camera, renderer, earth, clouds, stars, atmosphere;
+let zoomProgress = 0;
+let targetZoom = 0;
+
+function init() {
+    scene = new THREE.Scene();
+    const width = container.clientWidth || window.innerWidth;
+    const height = container.clientHeight || window.innerHeight;
+    
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
+    camera.position.z = 1000;
+
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // Starfield
+    const starGeometry = new THREE.BufferGeometry();
+    const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7 });
+    const starVertices = [];
+    for (let i = 0; i < 10000; i++) {
+        starVertices.push((Math.random() - 0.5) * 2000, (Math.random() - 0.5) * 2000, (Math.random() - 0.5) * 2000);
+    }
+    starGeometry.setAttribute('position', 'new THREE.Float32BufferAttribute(starVertices, 3)');
+    stars = new THREE.Points(starGeometry, starMaterial);
+    scene.add(stars);
+
+    // Earth
+    const earthGeometry = new THREE.SphereGeometry(200, 64, 64);
+    const earthMaterial = new THREE.MeshPhongMaterial({
+        color: 0x2233ff,
+        emissive: 0x112244,
+        shininess: 5,
+        // In a real env, we'd use textures, but for this standalone script, we use phong with gradients
+    });
+    earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    scene.add(earth);
+
+    // Simple Glow/Atmosphere
+    const atmoGeo = new THREE.SphereGeometry(210, 64, 64);
+    const atmoMat = new THREE.MeshBasicMaterial({ color: 0x0088ff, transparent: true, opacity: 0.2, side: THREE.BackSide });
+    atmosphere = new THREE.Mesh(atmoGeo, atmoMat);
+    scene.add(atmosphere);
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 3, 5);
+    scene.add(light);
+    scene.add(new THREE.AmbientLight(0x333333));
+
+    window.addEventListener('resize', onWindowResize);
+    window.addEventListener('scroll', onScroll);
+    
+    animate();
+}
+
+function onWindowResize() {
+    const width = container.clientWidth || window.innerWidth;
+    const height = container.clientHeight || window.innerHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+}
+
+function onScroll() {
+    const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    targetZoom = scrollPercent;
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    
+    // Smooth interpolation for zoom
+    zoomProgress += (targetZoom - zoomProgress) * 0.05;
+    
+    // Rotate Earth slowly
+    earth.rotation.y += 0.001;
+    atmosphere.rotation.y += 0.0012;
+    
+    // Camera Zoom Logic
+    // Start at 1000, zoom into surface
+    const zoomDist = 1000 - (zoomProgress * 995); 
+    camera.position.z = zoomDist;
+    
+    // As we get closer, rotate Earth to focus on "India" (approximate coords)
+    if (zoomProgress > 0.5) {
+        earth.rotation.x = (zoomProgress - 0.5) * 0.5; // Tilt towards India
+    }
+
+    renderer.render(scene, camera);
+}
+
+init();
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_1 -->
+</body>
+</html>

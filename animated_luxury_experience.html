@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CANOPPY – The Rooftop Restaurant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#d0c5af",
+                    "surface-bright": "#3a3939",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-container": "#201f1f",
+                    "surface-variant": "#353534",
+                    "inverse-surface": "#e5e2e1",
+                    "on-error": "#690005",
+                    "on-error-container": "#ffdad6",
+                    "on-primary": "#3c2f00",
+                    "primary-fixed-dim": "#e9c349",
+                    "on-tertiary-fixed-variant": "#474646",
+                    "surface": "#131313",
+                    "on-tertiary-container": "#454545",
+                    "tertiary-fixed": "#e5e2e1",
+                    "primary": "#f2ca50",
+                    "on-primary-container": "#554300",
+                    "surface-container-lowest": "#0e0e0e",
+                    "inverse-primary": "#735c00",
+                    "on-secondary-fixed-variant": "#6e3900",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "on-surface": "#e5e2e1",
+                    "surface-tint": "#e9c349",
+                    "primary-fixed": "#ffe088",
+                    "tertiary-container": "#b5b2b2",
+                    "on-tertiary": "#313030",
+                    "on-primary-fixed": "#241a00",
+                    "inverse-on-surface": "#313030",
+                    "surface-dim": "#131313",
+                    "surface-container-highest": "#353534",
+                    "secondary-fixed-dim": "#ffb77d",
+                    "secondary-fixed": "#ffdcc3",
+                    "error-container": "#93000a",
+                    "secondary": "#ffb77d",
+                    "outline-variant": "#4d4635",
+                    "secondary-container": "#fd8b00",
+                    "on-secondary": "#4d2600",
+                    "outline": "#99907c",
+                    "on-secondary-fixed": "#2f1500",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "primary-container": "#d4af37",
+                    "on-secondary-container": "#603100",
+                    "on-primary-fixed-variant": "#574500",
+                    "background": "#131313",
+                    "on-background": "#e5e2e1",
+                    "tertiary": "#d0cecd",
+                    "error": "#ffb4ab"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "section-gap": "120px",
+                    "margin-mobile": "20px",
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "margin-desktop": "64px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Playfair Display"],
+                    "body-md": ["Inter"],
+                    "display-md": ["Playfair Display"],
+                    "display-lg": ["Playfair Display"],
+                    "price-display": ["Playfair Display"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "label-caps": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-md": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "price-display": ["24px", {"lineHeight": "1.0", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.2em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-border-gold {
+            border-image: linear-gradient(to bottom, #d4af37, transparent) 1;
+        }
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .sunset-transition {
+            transition: background-color 1.5s ease-in-out;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation -->
+<header id="top-header" class="fixed top-0 w-full bg-white/5 backdrop-blur-xl z-50 border-b border-white/10 flex justify-between items-center px-6 py-4 md:px-margin-desktop md:py-8 transition-all duration-500 opacity-0 pointer-events-none">
+<div class="font-display-md text-headline-lg-mobile md:text-display-md tracking-tighter text-primary">CANOPPY</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary transition-colors" href="#experience">Experience</a>
+<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary transition-colors" href="#menu">Menu</a>
+<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary transition-colors" href="#gallery">Gallery</a>
+<a class="bg-primary text-on-primary px-8 py-3 font-label-caps text-label-caps tracking-widest hover:brightness-110 active:scale-95 transition-all inline-block text-center" href="#reservation">RESERVE</a>
+</div>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</header>
+<!-- Hero Section (400vh scroll track) -->
+<section id="earth-scroll-container" class="relative h-[400vh] bg-[#0c0c0c] z-10">
+    <!-- Sticky WebGL & Story Viewport -->
+    <div id="earth-viewport" class="sticky top-0 w-full h-screen overflow-hidden">
+        <!-- WebGL Canvas Container -->
+        <div id="webgl-canvas-container" class="absolute inset-0 w-full h-full z-0"></div>
+        
+        <!-- Instruction Overlay (Pulsating Scroll to Begin Journey) -->
+        <div id="instruction-overlay" class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none transition-opacity duration-700">
+            <div class="text-center">
+                <span class="text-primary font-label-caps text-label-caps tracking-[0.4em] mb-4 block animate-pulse">Scroll to Begin Journey</span>
+            </div>
+        </div>
+        
+        <!-- Projected Marker Label (CANOPPY CHANDRAPUR) -->
+        <div id="projected-marker" class="absolute pointer-events-none opacity-0 z-20 transition-all duration-300 transform -translate-x-1/2 -translate-y-full flex flex-col items-center">
+            <div class="bg-black/80 backdrop-blur-md border border-primary/40 px-4 py-2 rounded text-primary font-label-caps text-[10px] tracking-[0.2em] whitespace-nowrap mb-2 shadow-lg shadow-primary/10">
+                CANOPPY CHANDRAPUR
+            </div>
+            <div class="relative w-2.5 h-2.5 flex items-center justify-center">
+                <div class="w-2.5 h-2.5 bg-primary rounded-full animate-ping absolute"></div>
+                <div class="w-1.5 h-1.5 bg-primary rounded-full absolute"></div>
+            </div>
+        </div>
+
+        <!-- Story Frame 3: Entering the Clouds & Settle -->
+        <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-10 px-margin-mobile">
+            <div id="story-frame-3" class="text-center max-w-4xl opacity-0 translate-y-10 transition-all duration-[1200ms] ease-out pointer-events-auto">
+                <span class="text-primary font-label-caps text-label-caps tracking-[0.4em] mb-4 block">CANOPY CHANDRAPUR</span>
+                <h1 class="font-display-lg text-4xl md:text-6xl leading-tight mb-6">Welcome To Canoppy</h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+                    Trends Building, Nagpur Road. The city's signature rooftop for global cuisine and sunset mixology.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <a class="bg-primary text-on-primary px-12 py-5 font-label-caps text-label-caps tracking-[0.3em] hover:bg-primary-container hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/10" href="#reservation">BOOK A TABLE</a>
+                    <a class="border border-primary/40 text-primary px-12 py-5 font-label-caps text-label-caps tracking-[0.3em] hover:bg-primary/10 hover:scale-105 active:scale-95 transition-all backdrop-blur-sm" href="#menu">VIEW MENU</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fullscreen sunset dive overlay -->
+        <div id="transition-overlay" class="absolute inset-0 pointer-events-none opacity-0 z-30 bg-gradient-to-b from-[#FF8C00] via-[#D4AF37] to-[#131313] mix-blend-normal"></div>
+    </div>
+</section>
+<!-- Main Content Wrapper (Hidden initially during space zoom) -->
+<main id="main-content" class="opacity-0 pointer-events-none transition-opacity duration-[1000ms]">
+<!-- Section 2: Experience Horizontal Scroll -->
+<section class="py-section-gap overflow-hidden" id="experience">
+<div class="px-margin-mobile md:px-margin-desktop mb-16 reveal-up">
+<span class="text-primary font-label-caps text-label-caps mb-4 block">THE ATMOSPHERE</span>
+<h2 class="font-display-md text-display-md">Crafted for the Elite</h2>
+</div>
+<div class="flex overflow-x-auto no-scrollbar gap-gutter px-margin-mobile md:px-margin-desktop pb-12 snap-x">
+<!-- Card 1 -->
+<div class="min-w-[85vw] md:min-w-[450px] snap-center glass-panel p-8 group transition-all duration-700 hover:-translate-y-4">
+<div class="aspect-[4/5] overflow-hidden mb-8 relative">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A luxurious rooftop restaurant terrace at sunset with soft golden ambient lighting, modern minimalist furniture, and a stunning panoramic city view. Deep blacks and warm gold tones dominate the cinematic atmosphere, highlighting the elegant table settings and crystal glassware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyrNSzCFMtZBbDnwyA2doDxpLlZLq5Ok-2GkoTy2oXAb3u6CsUT9fPYtOf8LDngU9ikDHcRT9h1AwHIOCBY-d-jbZMazmk-z6xUkGvFAxr9_FbVE5Q4H3y76xx4sJ5n7faoYLl-IMiv2HvfcIyHZzBJ7p6XwhTQc9NBr3rFaXnQ6PtTatSlCVDPWEExy2ITlhszYBx8BLsmXB7DT_0Ad3XMzSr2wJV5XksGU4WzjPLwkVHoLRyF4bGfeGno4Hf21Pvd_bcR5HKrVc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<h3 class="font-display-md text-2xl mb-4">Golden Hour</h3>
+<p class="text-on-surface-variant font-body-md opacity-80">Witness the transition from amber sunbeams to the velvet night in a setting designed for visual awe.</p>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[85vw] md:min-w-[450px] snap-center glass-panel p-8 group transition-all duration-700 hover:-translate-y-4">
+<div class="aspect-[4/5] overflow-hidden mb-8 relative">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Close-up of a sophisticated signature cocktail served in a fine crystal glass with a minimalist garnish, set against a dark, moody background of a luxury rooftop bar. Golden light reflections glint off the liquid surface, evoking an ultra-premium nightlife feel with deep shadows and warm highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAll5nxOnakEzRM_LltqvFCSylPmK6PHsdiO2lvrG2ivf7-3JLgKpjuw-BKaC7cukTYiSWlS6QMW0EYv7dE7W1X3nijaNjUI2_z0KHa5Q-5Mi1JQt7jqkLqb3_Dgf8crWn-HIbWuks0BA7NWaSkDrRAButkgZLLhMzUCdebDEmSU-t-rNcJwqFrFarh18jXPAGTQapmYLe-suvWPI_xpHp0FAaQCIlUzAyOCMAvp_glX3H_OL2IK14QvZ2rpDiKEYixmSCrtS9Ku-A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<h3 class="font-display-md text-2xl mb-4">Artisanal Spirits</h3>
+<p class="text-on-surface-variant font-body-md opacity-80">Our mixologists blend aerospace precision with botanical heritage to create sensory-shifting cocktails.</p>
+</div>
+<!-- Card 3 -->
+<div class="min-w-[85vw] md:min-w-[450px] snap-center glass-panel p-8 group transition-all duration-700 hover:-translate-y-4">
+<div class="aspect-[4/5] overflow-hidden mb-8 relative">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Exquisite fine dining plate featuring a gourmet culinary creation with vibrant colors, textures, and artistic plating. The dish is softly lit by warm spot lighting against a dark charcoal table setting, emphasizing the luxury and exclusivity of the dining experience in a premium rooftop restaurant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWPcXoayv3btzhuGbFE1E0l8nIJUdVB2f_2bOCo_lLEU2oD5oLrW2XSu4IsgyQjJrZcvILyyfAt8WJZxJe5nCsz-sT9NSBvZckLEna7qMyc_RwCNjxxzrCCAj7zLoLpD0WxDt-fe3w95JCJbSPe7Bf_zu7RzvS7dA83N-aGItdlebctVdJ5js1IKOEj_kPpJc2iy4_OdY4kORJmRDjwlRk1a85FWI7l1qAQ9aIv-U0rba3F_MKpp0HZGQJXMjDAlnsgX0VpGASQrs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<h3 class="font-display-md text-2xl mb-4">Culinary Zenith</h3>
+<p class="text-on-surface-variant font-body-md opacity-80">Global flavors reimagined through local seasonality, curated by our world-class executive chefs.</p>
+</div>
+</div>
+</section>
+<!-- Section 3: The Real Canoppy Menu -->
+<section class="py-section-gap bg-surface-container-lowest animate-reveal" id="menu">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+        
+        <!-- Header -->
+        <div class="text-center mb-16 reveal-up">
+            <span class="text-primary font-label-caps text-label-caps tracking-[0.4em] mb-6 block">SAVOR THE ASCENT</span>
+            <h2 class="font-display-lg text-headline-lg md:text-display-lg mb-4">The Collection</h2>
+            <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Discover the authentic, hand-crafted culinary wonders of Canoppy, Chandrapur's premier rooftop dining destination.
+            </p>
+        </div>
+        
+        <!-- Search and Filter Panel -->
+        <div class="mb-12 flex flex-col md:flex-row gap-6 items-center justify-between reveal-up">
+            <!-- Search bar -->
+            <div class="relative w-full md:max-w-md">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface/40">search</span>
+                <input type="text" id="menu-search-input" placeholder="Search our celestial dishes..." class="w-full bg-white/5 border border-white/10 rounded pl-12 pr-6 py-4 text-on-surface placeholder:text-on-surface/30 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all font-body-md glass-panel" />
+            </div>
+            
+            <!-- Quick Veg filter button -->
+            <div class="flex gap-4 w-full md:w-auto justify-end">
+                <button id="filter-all-btn" class="px-6 py-3 font-label-caps text-[10px] tracking-widest bg-primary text-on-primary rounded hover:brightness-110 active:scale-95 transition-all">ALL ITEMS</button>
+                <button id="filter-veg-btn" class="px-6 py-3 font-label-caps text-[10px] tracking-widest border border-primary/20 text-primary rounded hover:bg-primary/5 active:scale-95 transition-all flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full inline-block"></span> VEG ONLY
+                </button>
+            </div>
+        </div>
+
+        <!-- Sticky Category Navigation Tab Bar -->
+        <div id="menu-category-tabs" class="sticky top-[70px] md:top-[90px] z-40 bg-[#131313]/95 backdrop-blur-md border-y border-outline-variant/20 py-4 mb-16 overflow-x-auto no-scrollbar flex gap-8 md:justify-center whitespace-nowrap px-4 -mx-margin-mobile md:mx-0">
+            <a href="#indian-starters" class="menu-tab text-primary border-b-2 border-primary pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Indian Starters</a>
+            <a href="#tandoor-starters" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Tandoor Starters</a>
+            <a href="#main-course" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Main Course</a>
+            <a href="#rice-biryani" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Rice & Biryani</a>
+            <a href="#mocktails" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Mocktails</a>
+            <a href="#shakes" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Shakes</a>
+            <a href="#soups" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Soups</a>
+            <a href="#desserts" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary transition-colors">Desserts</a>
+        </div>
+
+        <!-- Menu Sub-sections -->
+        <div id="menu-sections-container">
+            
+            <!-- Category 1: Indian Starters -->
+            <div id="indian-starters" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Indian Starters
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer tikka" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Tikka</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Soft cottage cheese marinated in Indian spices and grilled in tandoor.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹260</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="cheese ball" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Cheese Ball</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Crispy fried cheese balls with herbs and melted center.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹240</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="dahi ke sholay" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Dahi Ke Sholay</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Hung curd mixed with bell peppers and spices, wrapped in bread and deep fried.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹250</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="falafel with hummus" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Falafel With Hummus</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Crispy chickpea patties served with creamy classic chickpea hummus and pita.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹270</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="papad paneer finger" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Papad Paneer Finger</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Paneer fingers coated with crushed papad and golden fried.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹250</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="creamy pepper mushroom" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Creamy Pepper Mushroom</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Fresh mushrooms tossed in a rich black pepper cream sauce.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹280</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 2: Tandoor Starters -->
+            <div id="tandoor-starters" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Tandoor Starters
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="baby corn tikka" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Baby Corn Tikka</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Fresh baby corn coated in a tandoori masala marinade and charred.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹240</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="corn seek kebab" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Corn Seek Kebab</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Minced sweet corn and vegetables skewered and roasted in the clay oven.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹250</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer teecha tikka" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Teecha Tikka</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Paneer marinated in spicy Maharashtrian green chili teecha.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹280</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="stuffed mushroom" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Stuffed Mushroom</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Mushroom caps stuffed with cheese, herbs, and cooked in tandoor.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹270</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="galouti kebab" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Galouti Kebab</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Melt-in-your-mouth minced vegetable patties infused with aromatic royal spices.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹290</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 3: Main Course -->
+            <div id="main-course" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Main Course
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer tikka masala" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Tikka Masala</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Tandoori paneer tikka cooked in a rich, spiced tomato-onion gravy.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹310</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer lababdar" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Lababdar</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Cottage cheese cubes cooked in a creamy, sweet and tangy tomato-based gravy.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹320</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer saoji" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Saoji</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Spicy and robust Saoji style gravy with cottage cheese, a Nagpur specialty.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹310</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer kolhapuri" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Kolhapuri</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Fiery red Kolhapuri spiced gravy cooked with paneer.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹310</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="malai kofta" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Malai Kofta</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Soft paneer dumplings in a rich, sweet cashew nut gravy.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹330</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="dal makhani" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Dal Makhani</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Slow-cooked black lentils simmered overnight with butter and fresh cream.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹280</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="kaju curry" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Kaju Curry</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Fried cashew nuts cooked in a rich, creamy spiced brown gravy.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹340</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="veg shahi kofta" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Veg Shahi Kofta</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Rich royal gravy served with spiced mixed vegetable koftas.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹320</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 4: Rice & Biryani -->
+            <div id="rice-biryani" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Rice & Biryani
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="paneer gulzari biryani" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Paneer Gulzari Biryani</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Fragrant basmati rice layered with paneer, vegetables, and exotic spices.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹320</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="hyderabadi veg biryani" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Hyderabadi Veg Biryani</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Authentic slow-cooked Dum biryani from Hyderabad with fresh mint.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹290</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="kashmiri pulao" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Kashmiri Pulao</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Sweet pulao loaded with dried fruits, nuts, and fresh fruits.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹280</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="mexican rice" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Mexican Rice</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Flavorful rice tossed with salsa, bell peppers, sweet corn, and kidney beans.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹260</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="garlic rice" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Garlic Rice</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Stir-fried rice seasoned with burnt garlic and green onions.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹230</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="jeera rice" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Jeera Rice</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Basmati rice tempered with cumin seeds and pure ghee.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹180</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 5: Mocktails -->
+            <div id="mocktails" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Mocktails
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="blue lagoon" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Blue Lagoon</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">A refreshing blend of blue curacao, lemon juice, and club soda.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹160</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="virgin mojito" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Virgin Mojito</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Classic mix of fresh mint leaves, lime wedges, sugar syrup, and soda.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹150</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="irani mojito" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Irani Mojito</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">A twist on the classic mojito with Persian herbs and spices.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹165</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="orange sunrise" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Orange Sunrise</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Layered mocktail with sweet orange juice and grenadine syrup.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹160</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="pink lady" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Pink Lady</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Creamy, sweet mocktail with grenadine, lemon juice, and a splash of soda.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹170</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="strawberry lemonade" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Strawberry Lemonade</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Fresh strawberry puree blended with lime juice and chilled water.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹160</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="golden tropicana" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Golden Tropicana</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Tropical blend of mango, pineapple, and coconut cream.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹180</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 6: Shakes -->
+            <div id="shakes" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Shakes
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="oreo shake" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Oreo Shake</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Creamy vanilla ice cream blended with Oreo cookies and chocolate syrup.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹180</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="kitkat shake" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">KitKat Shake</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Thick chocolate shake blended with KitKat chocolate bars.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹180</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="lotus biscoff shake" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Lotus Biscoff Shake</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Decadent shake blended with Lotus Biscoff spread and cookies.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹210</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="nutella shake" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Nutella Shake</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Creamy shake loaded with Nutella hazelnut spread.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹200</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="tiramisu shake" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Tiramisu Shake</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Shake infused with espresso coffee and mascarpone flavor.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹220</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 7: Soups -->
+            <div id="soups" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Soups
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="manchow soup" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Manchow Soup</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Spicy and tangy soy-based soup loaded with vegetables and crispy noodles.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹140</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="hot & sour soup" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Hot & Sour Soup</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Classic Chinese soup with hot pepper, vinegar, and minced vegetables.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹140</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="lemon coriander soup" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Lemon Coriander Soup</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Clear vegetable soup infused with fresh lemon and green coriander.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹150</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="burnt garlic soup" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Burnt Garlic Soup</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Rich vegetable broth flavored with golden fried burnt garlic.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹150</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 8: Desserts -->
+            <div id="desserts" class="menu-category-section mb-20 scroll-mt-[180px]">
+                <h3 class="font-display-md text-2xl text-primary border-b border-primary/20 pb-4 mb-8 uppercase tracking-widest flex items-center gap-4">
+                    Desserts
+                    <span class="h-px bg-primary/20 flex-grow"></span>
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="vanilla ice cream" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Vanilla Ice Cream</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Premium creamy vanilla bean ice cream.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹100</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="chocolate ice cream" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Chocolate Ice Cream</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Rich Belgian dark chocolate ice cream.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹120</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-card glass-panel p-6 flex justify-between gap-6 hover:bg-primary/5 transition-all duration-300 relative group" data-name="butterscotch ice cream" data-veg="true">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-4 h-4 border-2 border-green-600 flex items-center justify-center p-[2px] flex-shrink-0">
+                                    <div class="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
+                                </div>
+                                <h4 class="font-display-md text-lg group-hover:text-primary transition-colors">Butterscotch Ice Cream</h4>
+                            </div>
+                            <p class="text-on-surface-variant text-sm font-body-md opacity-85 leading-relaxed">Creamy butterscotch ice cream with crunchy praline pieces.</p>
+                        </div>
+                        <div class="flex-shrink-0 text-right">
+                            <span class="font-price-display text-primary text-xl">₹120</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Section 4: Sunset Experience (Background Shift) -->
+<section class="sunset-transition min-h-[707px] flex items-center relative overflow-hidden py-section-gap" id="sunset">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary-container via-transparent to-transparent"></div>
+</div>
+<div class="container mx-auto px-margin-mobile md:px-margin-desktop relative z-10 grid md:grid-cols-2 gap-20 items-center">
+<div class="reveal-up">
+<h2 class="font-display-lg text-headline-lg md:text-display-lg leading-tight mb-8">Where Night Begins</h2>
+<p class="font-body-lg text-lg text-on-surface mb-12 opacity-90 leading-relaxed">
+                    At CANOPPY, we don't just serve food; we curate moments. As the sun dips below the Chandrapur horizon, our space transforms from a serene sanctuary to an electric evening hub.
+                </p>
+<div class="flex gap-12">
+<div>
+<div class="text-primary font-display-md text-4xl mb-2">18:00</div>
+<div class="font-label-caps text-xs tracking-widest uppercase opacity-60">Golden Hour</div>
+</div>
+<div>
+<div class="text-primary font-display-md text-4xl mb-2">22:00</div>
+<div class="font-label-caps text-xs tracking-widest uppercase opacity-60">Night Lounge</div>
+</div>
+</div>
+</div>
+<div class="reveal-up glass-panel p-2 relative">
+<img class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000" data-alt="A wide-angle cinematic shot of a luxury rooftop lounge during twilight. The sky is a deep mix of sunset orange and indigo, reflecting on the glass surfaces and sleek furniture. The mood is sophisticated and peaceful, with warm golden interior lighting spilling onto the open-air deck." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFvwB5-iIAFXdAvKElNs3r4pnm_tMIgG6WI8JOC6h8-E82TTXJYmcc_FRW3r2veiM1qAui1rHFQYtekuUxqXbkpo9uGa6Zb2EL1S6x6sl2BKR6hFnkiAJUCotj4OX6WdXkSP1sAVOBzpzvg321_YVIOROnMpZMVl6ReWo1j98BdikmYbAM-vKtB_paAYKrpc4WGl6sVhRfgtebpgIxYLxDhJ7CM6S0g5bx350djMxFwXRprsVKgRf4LovQXMyn54rtkKPoRuBaWI4"/>
+</div>
+</div>
+</section>
+<!-- Section 5: Gallery (Masonry style) -->
+<section class="py-section-gap bg-surface" id="gallery">
+<div class="px-margin-mobile md:px-margin-desktop mb-16 reveal-up">
+<span class="text-primary font-label-caps text-label-caps mb-4 block">VISUALS</span>
+<h2 class="font-display-md text-display-md">Captured Atmosphere</h2>
+</div>
+<div class="px-margin-mobile md:px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[250px]">
+<div class="reveal-up col-span-2 row-span-2 overflow-hidden group relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="A vibrant shot of guests enjoying a premium rooftop dining experience at night. The table is filled with gourmet food and glowing drinks, with the city lights of Chandrapur providing a glittering bokeh background. The scene captures joy, luxury, and high-end social interaction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFhAD8wyVRW0RUfG3tBiuXGPlVVJRQ6OuheoPQRAcXPg-wa_E59DxmbTZxib_U3ZgC0QgcbuTH7AxUOhozwvpWUHV1b4JR1TAKnixYehGgfoiaKZPLcRrvdAM7hm2bvXX18xOO-3s12nH3sjJ8rKYMrqGHA0eTySSblBwEi4MUvDaV3Mjxy5KM776ZT2i-ArIRg6TroTVS2xJ6owzhoPV0HWfBtIQKmNLdMRvekjtxkKikvSMmn1stg7fjg43emBkAzjqhonxUPJk"/>
+</div>
+<div class="reveal-up overflow-hidden group relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="Close-up of an elegant dessert with gold leaf detailing, presented on a dark ceramic plate in a high-end rooftop restaurant. The lighting is low and focused, creating dramatic shadows and highlighting the intricate textures of the food, consistent with the cinematic luxury theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK5Z-SJ9QvZ4SHCYeUA2xvBVmiYMHZM-_qicgehJgNa4FZEyz2_BQoybdbDizKxLaqtxny3lxfs5MZS6HEg5k4rZkfyRn00o_0ouSIbJKrC1s7PWyU6bTYrE1bFDDWsijZpN6nPPjuLlK3t4gP1Ygm4rL8Eh27UzGMMFrMO2mpwtjUSdLcrtAgrfdrme4K0-TGTnJ8umpUgyhPpMunNZ_8TC3nTh94_n-XLF2AsGf3Ds3se3c0evzoDX1LF-FCC3g-oII1MaA8ls8"/>
+</div>
+<div class="reveal-up row-span-2 overflow-hidden group relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="Perspective view of a long, sleek bar counter in a luxury rooftop establishment. The bar is stocked with premium bottles under warm gold LED lighting, reflecting off polished dark surfaces. The design is modern, minimalist, and exudes an air of exclusive sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7D7cp6aVn5iij7G-SD4SaqZ-z42qGLY2UL0m0OLGpFk7bsICguMUEFdeKnNZboYSj7692EfjQmL-nBARMfqNfPPROenYZmEJa-zNwPhsIYqf7kBQ2LbxIiv9eWSyOJicE0Ix3ZRonmPML4FzzqYEGaSb3u1ucLIRRrPc_JSkSJKL8a75bBhCdzUlLTLrnb3Omrw29qzTPU5A1uX1If0BiHcI2yc0fjWVC7uaZg0m9ajjHHuGDdSQKqSUcUNhMa37fnbfxpECXhBA"/>
+</div>
+<div class="reveal-up overflow-hidden group relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="An atmospheric shot of a single candle on an outdoor rooftop table at night, with the blurred city lights in the distance. The warm flame creates a soft glow on the glass tabletop, emphasizing the romantic and intimate cinematic vibe of the restaurant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9TILL8ccxiZxJnxOunKNOTmgkZl38B0uO52hAH9IzoKfDcUymuiYEOKodk3Lt2mglCoGD1Gto3vSoimdo76F_e821xjDspnZXW6rXzBccUA5L6EsLsXuiFKg-T5uJ62Y-H3q5NoNizL2oFPzjoscCTRyLzA4CcPrR-Q58M6d1RG8qkzm75jXBEBKlF5qiH7utzVBiYp9JW8dDk1-JLVwp-2Z0xbSCtN5d9NXaDOfacDbLs189juHNwLz4DDVd8GzVnY70N4Stbzs"/>
+</div>
+</div>
+</section>
+<!-- Section 6: Reservation -->
+<section class="py-section-gap relative" id="reservation">
+<div class="max-w-3xl mx-auto px-margin-mobile">
+<div class="glass-panel p-8 md:p-16 relative overflow-hidden">
+<!-- Glowing effect -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 blur-[100px] rounded-full"></div>
+<div class="relative z-10 text-center mb-12">
+<h2 class="font-display-md text-headline-lg md:text-display-md mb-4">Secure Your Table</h2>
+<p class="text-on-surface-variant font-body-md">Book your journey through the golden hour.</p>
+</div>
+<form class="space-y-8 relative z-10">
+<div class="grid md:grid-cols-2 gap-8">
+<div class="relative group">
+<input class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Your Name" type="text"/>
+</div>
+<div class="relative group">
+<input class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Email Address" type="email"/>
+</div>
+<div class="relative group">
+<input class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md" type="date"/>
+</div>
+<div class="relative group">
+<select class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md">
+<option value="2">2 Guests</option>
+<option value="4">4 Guests</option>
+<option value="6">6+ Guests</option>
+</select>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-6 font-label-caps text-label-caps tracking-[0.5em] hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/10" type="submit">CONFIRM RESERVATION</button>
+</form>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/30 pt-section-gap pb-12">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-start gap-16 mb-24">
+<div class="max-w-sm">
+<div class="font-display-lg text-headline-lg text-primary uppercase tracking-widest mb-8">CANOPPY</div>
+<p class="text-tertiary font-body-md leading-relaxed opacity-70 mb-8">
+                        Trends Building, Nagpur Road, Chandrapur. <br/>
+                        Nagpur's signature rooftop destination for global cuisine and celestial cocktails.
+                    </p>
+<div class="flex gap-6">
+<a class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">camera</span>
+</a>
+<a class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-20">
+<div>
+<h5 class="font-label-caps text-label-caps tracking-widest text-primary mb-8">NAVIGATE</h5>
+<ul class="space-y-4">
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md" href="#">The Menu</a></li>
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md" href="#">Gallery</a></li>
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md" href="#">Private Events</a></li>
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md" href="#">Location</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps tracking-widest text-primary mb-8">CONTACT</h5>
+<ul class="space-y-4 font-body-md text-tertiary">
+<li>7020916246</li>
+<li>7709112398</li>
+<li>@canoppytherooftop</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-outline-variant/10 text-on-surface/40 text-[10px] tracking-widest font-label-caps">
+<span>© 2024 CANOPPY ROOFTOP. ALL RIGHTS RESERVED.</span>
+<span class="mt-4 md:mt-0">DESIGNED FOR THE HORIZON.</span>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // --- 1. Pre-existing UI Scroll Utilities ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal-up').forEach((el) => observer.observe(el));
+
+        // Header scroll effect (once visible)
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (header && !header.classList.contains('opacity-0')) {
+                if (window.scrollY > 100) {
+                    header.classList.add('py-4');
+                    header.classList.remove('py-8');
+                } else {
+                    header.classList.add('py-8');
+                    header.classList.remove('py-4');
+                }
+            }
+        });
+
+        // Sunset Section Background Shift
+        window.addEventListener('scroll', () => {
+            const sunsetSection = document.getElementById('sunset');
+            if (sunsetSection) {
+                const scrollPosition = window.scrollY + (window.innerHeight / 2);
+                const sunsetTop = sunsetSection.offsetTop;
+                const sunsetHeight = sunsetSection.offsetHeight;
+
+                if (scrollPosition > sunsetTop && scrollPosition < (sunsetTop + sunsetHeight)) {
+                    document.body.style.backgroundColor = '#1a120b'; 
+                } else {
+                    document.body.style.backgroundColor = '#131313';
+                }
+            }
+        });
+
+        // --- 2. GSAP & Lenis Smooth Scroll Integration ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        const lenis = new Lenis({
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+
+
+        // --- 3. Three.js Shaders Definitions ---
+        
+        // Earth Custom Shader Materials (Vertex & Fragment)
+        const earthVertexShader = `
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            varying vec3 vObjectPosition;
+            varying vec3 vViewPosition;
+            varying vec3 vTangent;
+            varying vec3 vBitangent;
+            
+            void main() {
+                vUv = uv;
+                vNormal = normalize(normalMatrix * normal);
+                vObjectPosition = position;
+                
+                // Calculate surface tangent and bitangent in view space
+                vec3 objTangent = normalize(vec3(-position.z, 0.0, position.x));
+                vec3 objBitangent = normalize(cross(normalize(position), objTangent));
+                vTangent = normalize(normalMatrix * objTangent);
+                vBitangent = normalize(normalMatrix * objBitangent);
+                
+                vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                vViewPosition = -mvPosition.xyz;
+                gl_Position = projectionMatrix * mvPosition;
+            }
+        `;
+
+        const earthFragmentShader = `
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            varying vec3 vObjectPosition;
+            varying vec3 vViewPosition;
+            varying vec3 vTangent;
+            varying vec3 vBitangent;
+            
+            uniform vec3 uSunDirection;
+            uniform sampler2D uDayTexture;
+            uniform sampler2D uNightTexture;
+            uniform sampler2D uBumpTexture;
+            uniform float uDayTextureLoaded;
+            uniform float uNightTextureLoaded;
+            uniform float uBumpTextureLoaded;
+            
+            // Description : Array and textureless GLSL 2D/3D/4D simplex noise functions.
+            //      Author : Ian McEwan, Ashima Arts.
+            //  Maintainer : stegu
+            //     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
+            //               Distributed under the MIT License.
+            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+            vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+            float snoise(vec3 v) {
+              const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+              const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+              vec3 i  = floor(v + dot(v, C.yyy) );
+              vec3 x0 =   v - i + dot(i, C.xxx) ;
+
+              vec3 g = step(x0.yzx, x0.xyz);
+              vec3 l = 1.0 - g;
+              vec3 i1 = min( g.xyz, l.zxy );
+              vec3 i2 = max( g.xyz, l.zxy );
+
+              vec3 x1 = x0 - i1 + C.xxx;
+              vec3 x2 = x0 - i2 + C.yyy;
+              vec3 x3 = x0 - D.yyy;
+
+              i = mod289(i);
+              vec4 p = permute( permute( permute(
+                         i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+                       + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
+                       + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+
+              float n_ = 0.142857142857;
+              vec3  ns = n_ * D.wyz - D.xzx;
+
+              vec4 j = p - 49.0 * floor(p * ns.z);
+
+              vec4 x_ = floor(j * ns.z);
+              vec4 y_ = floor(j - 7.0 * x_ );
+
+              vec4 x = x_ *ns.x + ns.yyyy;
+              vec4 y = y_ *ns.x + ns.yyyy;
+              vec4 h = 1.0 - abs(x) - abs(y);
+
+              vec4 b0 = vec4( x.xy, y.xy );
+              vec4 b1 = vec4( x.zw, y.zw );
+
+              vec4 s0 = floor(b0)*2.0 + 1.0;
+              vec4 s1 = floor(b1)*2.0 + 1.0;
+              vec4 sh = -step(h, vec4(0.0));
+
+              vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+              vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+
+              vec3 p0 = vec3(a0.xy,h.x);
+              vec3 p1 = vec3(a0.zw,h.y);
+              vec3 p2 = vec3(a1.xy,h.z);
+              vec3 p3 = vec3(a1.zw,h.w);
+
+              vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+              p0 *= norm.x;
+              p1 *= norm.y;
+              p2 *= norm.z;
+              p3 *= norm.w;
+
+              vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+              m = m * m;
+              return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
+                                            dot(p2,x2), dot(p3,x3) ) );
+            }
+
+            float fBm(vec3 p) {
+                float v = 0.0;
+                float a = 0.5;
+                vec3 shift = vec3(100.0);
+                for (int i = 0; i < 4; ++i) {
+                    v += a * snoise(p);
+                    p = p * 2.0 + shift;
+                    a *= 0.5;
+                }
+                return v;
+            }
+
+            void main() {
+                vec3 normal = normalize(vNormal);
+                vec3 viewDir = normalize(vViewPosition);
+                vec3 lightDir = normalize(uSunDirection);
+                
+                // Procedural terrain height map using 3D Simplex fBm
+                float height = fBm(vObjectPosition * 0.015);
+                
+                // Apply bump mapping if texture loaded
+                vec3 finalNormal = normal;
+                if (uBumpTextureLoaded > 0.5) {
+                    float bumpScale = 0.04;
+                    float h = texture2D(uBumpTexture, vUv).r;
+                    float hU = texture2D(uBumpTexture, vUv + vec2(0.0015, 0.0)).r;
+                    float hV = texture2D(uBumpTexture, vUv + vec2(0.0, 0.0015)).r;
+                    
+                    vec3 t = normalize(vTangent);
+                    vec3 b = normalize(vBitangent);
+                    finalNormal = normalize(normal + (h - hU) * t * bumpScale + (h - hV) * b * bumpScale);
+                }
+                
+                // Procedural day color gradient (oceans to landmasses)
+                vec3 oceanColor = mix(vec3(0.01, 0.04, 0.15), vec3(0.04, 0.1, 0.25), height + 0.5);
+                vec3 landColor = mix(vec3(0.08, 0.16, 0.08), vec3(0.26, 0.22, 0.14), clamp((height - 0.1) * 2.0, 0.0, 1.0));
+                if (height > 0.0 && height < 0.04) {
+                    landColor = mix(vec3(0.72, 0.58, 0.26), landColor, (height - 0.0) / 0.04);
+                }
+                vec3 dayProcedural = (height > 0.0) ? landColor : oceanColor;
+                
+                // Procedural night light points clustered on land
+                float nightFactor = smoothstep(0.1, -0.1, dot(finalNormal, lightDir));
+                vec3 nightProcedural = vec3(0.92, 0.75, 0.25) * nightFactor * step(0.14, fBm(vObjectPosition * 0.07 + vec3(15.2))) * 0.9;
+                
+                // Load day/night textures if available
+                vec3 dayTexColor = texture2D(uDayTexture, vUv).rgb;
+                vec3 nightTexColor = texture2D(uNightTexture, vUv).rgb;
+                
+                // Hybrid blending between procedural rendering and asynchronous maps
+                vec3 finalDay = mix(dayProcedural, dayTexColor, uDayTextureLoaded);
+                vec3 finalNight = mix(nightProcedural, nightTexColor * 1.5, uNightTextureLoaded);
+                
+                // Calculate sunset/terminator blend
+                float dotSun = dot(finalNormal, lightDir);
+                float dayNightBlend = smoothstep(-0.05, 0.05, dotSun);
+                vec3 surfaceColor = mix(finalNight, finalDay * max(dotSun, 0.08), dayNightBlend);
+                
+                // Soft golden Fresnel atmospheric scattering at the limb
+                float rim = pow(1.0 - max(dot(finalNormal, viewDir), 0.0), 3.5);
+                vec3 glowColor = mix(vec3(0.1, 0.45, 0.9), vec3(0.92, 0.68, 0.25), dayNightBlend);
+                vec3 finalColor = surfaceColor + glowColor * rim * 0.7;
+                
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        `;
+
+        // Atmosphere Fresnel Shader
+        const atmosphereVertexShader = `
+            varying vec3 vNormal;
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const atmosphereFragmentShader = `
+            varying vec3 vNormal;
+            uniform vec3 uSunDirection;
+            void main() {
+                vec3 normal = normalize(vNormal);
+                // Rim glow intensity in view space
+                float intensity = pow(0.7 - dot(normal, vec3(0.0, 0.0, 1.0)), 2.8);
+                // Glow sunset gradient: warmer color facing the sun direction
+                vec3 sunDir = normalize(uSunDirection);
+                float sunGlow = max(dot(normal, vec3(0.5, 0.5, 1.0)), 0.0);
+                vec3 glowColor = mix(vec3(0.1, 0.4, 0.95), vec3(0.95, 0.72, 0.3), sunGlow);
+                gl_FragColor = vec4(glowColor * intensity * 2.0, intensity * 0.75);
+            }
+        `;
+
+        // Sunset Skybox Shader
+        const skyboxVertexShader = `
+            varying vec3 vWorldPosition;
+            void main() {
+                vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+                vWorldPosition = worldPosition.xyz;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const skyboxFragmentShader = `
+            varying vec3 vWorldPosition;
+            void main() {
+                vec3 dir = normalize(vWorldPosition);
+                float h = dir.y;
+                
+                // Sunset Sky Gradient
+                vec3 topColor = vec3(0.04, 0.03, 0.12);     // Deep indigo/violet
+                vec3 midColor = vec3(0.9, 0.36, 0.08);      // Sunset orange/gold
+                vec3 bottomColor = vec3(0.08, 0.06, 0.08);   // Dark charcoal
+                
+                vec3 finalColor;
+                if (h > 0.0) {
+                    finalColor = mix(midColor, topColor, pow(h, 0.85));
+                } else {
+                    finalColor = mix(midColor, bottomColor, pow(-h, 0.85));
+                }
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        `;
+
+
+        // --- 4. WebGL Initialization & Scene Setup ---
+        
+        const container = document.getElementById('webgl-canvas-container');
+        let scene, camera, renderer;
+        let spaceGroup, rooftopGroup;
+        let starfield, earthMesh, atmosphereMesh, markerRing, markerCore, markerGroup;
+        let skyboxMesh, deckMesh, tableLights = [];
+        
+        // Target Coordinates for Chandrapur
+        const lat = 19.9615;
+        const lon = 79.2961;
+        const radius = 200;
+        const chandrapurPos = latLonToVector3(lat, lon, radius);
+
+        // GSAP Animation Timeline Parameters
+        const animParams = {
+            lerpFactor: 0.0,
+            cameraZ: 1000,
+            rooftopProgress: 0.0
+        };
+
+        // Rooftop camera paths
+        const spaceTarget = new THREE.Vector3(0, 0, 0);
+        const rooftopTargetStart = new THREE.Vector3(0, 5, -5);
+        const rooftopTargetEnd = new THREE.Vector3(0, 5.5, -50);
+
+        // Mouse Parallax coordinates
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        if (container) {
+            initThree();
+        }
+
+        function initThree() {
+            // CRITICAL BUG FIX: Use window width/height directly to guarantee a visible fullscreen canvas immediately
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // 1. Scene & Camera Setup
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2500);
+            camera.position.z = 1000;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.0;
+            container.appendChild(renderer.domElement);
+
+            // 2. Scene Groups Setup
+            spaceGroup = new THREE.Group();
+            rooftopGroup = new THREE.Group();
+            scene.add(spaceGroup);
+            scene.add(rooftopGroup);
+            rooftopGroup.visible = false; // Hidden initially for optimization
+
+            // ================== SCENE 1: SPACE & EARTH ==================
+
+            // Starfield
+            const starGeo = new THREE.BufferGeometry();
+            const starCount = 10000;
+            const starPos = new Float32Array(starCount * 3);
+            const starColor = new Float32Array(starCount * 3);
+            
+            for (let i = 0; i < starCount * 3; i += 3) {
+                const rRadius = 800 + Math.random() * 900;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+                
+                starPos[i] = rRadius * Math.sin(phi) * Math.cos(theta);
+                starPos[i+1] = rRadius * Math.sin(phi) * Math.sin(theta);
+                starPos[i+2] = rRadius * Math.cos(phi);
+                
+                const rand = Math.random();
+                if (rand < 0.6) {
+                    starColor[i] = 1.0; starColor[i+1] = 1.0; starColor[i+2] = 1.0; // White
+                } else if (rand < 0.85) {
+                    starColor[i] = 0.85; starColor[i+1] = 0.92; starColor[i+2] = 1.0; // Blueish
+                } else {
+                    starColor[i] = 1.0; starColor[i+1] = 0.90; starColor[i+2] = 0.65; // Warm gold
+                }
+            }
+            starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+            starGeo.setAttribute('color', new THREE.BufferAttribute(starColor, 3));
+            
+            const starMat = new THREE.PointsMaterial({
+                size: 1.2,
+                vertexColors: true,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.95
+            });
+            starfield = new THREE.Points(starGeo, starMat);
+            spaceGroup.add(starfield);
+
+            // Sun Light
+            const sunLight = new THREE.DirectionalLight(0xfffaed, 2.5);
+            sunLight.position.set(500, 300, 500);
+            spaceGroup.add(sunLight);
+            
+            const spaceAmbient = new THREE.AmbientLight(0x0c0d12, 0.35);
+            spaceGroup.add(spaceAmbient);
+
+            // CRITICAL BUG FIX: Initialize samplers with a 1x1 dummy transparent texture to avoid WebGL binding errors
+            const dummyData = new Uint8Array([0, 0, 0, 0]);
+            const dummyTexture = new THREE.DataTexture(dummyData, 1, 1, THREE.RGBAFormat);
+            dummyTexture.needsUpdate = true;
+
+            // Earth Mesh with Shader
+            const earthGeo = new THREE.SphereGeometry(radius, 64, 64);
+            const earthUniforms = {
+                uSunDirection: { value: sunLight.position.clone().normalize() },
+                uDayTexture: { value: dummyTexture },
+                uNightTexture: { value: dummyTexture },
+                uBumpTexture: { value: dummyTexture },
+                uDayTextureLoaded: { value: 0.0 },
+                uNightTextureLoaded: { value: 0.0 },
+                uBumpTextureLoaded: { value: 0.0 }
+            };
+            const earthMat = new THREE.ShaderMaterial({
+                vertexShader: earthVertexShader,
+                fragmentShader: earthFragmentShader,
+                uniforms: earthUniforms
+            });
+            earthMesh = new THREE.Mesh(earthGeo, earthMat);
+            earthMesh.rotation.order = 'YXZ'; // Essential for proper lat/lon Euler alignment
+            spaceGroup.add(earthMesh);
+
+            // Atmosphere Mesh with Fresnel Shader
+            const atmoGeo = new THREE.SphereGeometry(radius + 6, 64, 64);
+            const atmoMat = new THREE.ShaderMaterial({
+                vertexShader: atmosphereVertexShader,
+                fragmentShader: atmosphereFragmentShader,
+                uniforms: { uSunDirection: { value: sunLight.position.clone().normalize() } },
+                blending: THREE.AdditiveBlending,
+                side: THREE.BackSide,
+                transparent: true
+            });
+            atmosphereMesh = new THREE.Mesh(atmoGeo, atmoMat);
+            spaceGroup.add(atmosphereMesh);
+
+            // Pulsing Marker at Chandrapur
+            markerGroup = new THREE.Group();
+            markerGroup.position.copy(chandrapurPos);
+            // Orient marker facing outwards tangent to the sphere
+            markerGroup.lookAt(chandrapurPos.clone().multiplyScalar(2));
+            earthMesh.add(markerGroup);
+
+            // Pulsing Outer Ring
+            const ringGeo = new THREE.RingGeometry(0.8, 6.5, 32);
+            const ringMat = new THREE.MeshBasicMaterial({
+                color: 0xD4AF37,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.85
+            });
+            markerRing = new THREE.Mesh(ringGeo, ringMat);
+            markerGroup.add(markerRing);
+
+            // Golden Center Core
+            const coreGeo = new THREE.SphereGeometry(1.6, 16, 16);
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0xD4AF37 });
+            markerCore = new THREE.Mesh(coreGeo, coreMat);
+            markerGroup.add(markerCore);
+
+            // Volumetric Clouds Sprites over Chandrapur
+            const cloudsGroup = new THREE.Group();
+            earthMesh.add(cloudsGroup);
+
+            // Create procedural soft cloud texture
+            const cloudTexture = createCloudTexture();
+            const cloudMat = new THREE.SpriteMaterial({
+                map: cloudTexture,
+                transparent: true,
+                opacity: 0.8,
+                depthWrite: false,
+                blending: THREE.NormalBlending
+            });
+
+            // Scatter cloud sprites over Chandrapur at cloud altitude
+            const cloudCount = 30;
+            for (let i = 0; i < cloudCount; i++) {
+                const spreadTheta = (Math.random() - 0.5) * 0.16;
+                const spreadPhi = (Math.random() - 0.5) * 0.16;
+                
+                const cLat = 19.9615 + (spreadTheta * 180 / Math.PI);
+                const cLon = 79.2961 + (spreadPhi * 180 / Math.PI);
+                const cloudAlt = 207 + Math.random() * 9;
+                
+                const cloudPos = latLonToVector3(cLat, cLon, cloudAlt);
+                const cloudSprite = new THREE.Sprite(cloudMat.clone());
+                cloudSprite.position.copy(cloudPos);
+                
+                const scale = 22 + Math.random() * 26;
+                cloudSprite.scale.set(scale, scale, 1);
+                cloudSprite.material.rotation = Math.random() * Math.PI * 2;
+                cloudsGroup.add(cloudSprite);
+            }
+
+            // Asynchronous High-Res Texture Loading (CORS enabled on unpkg)
+            const texLoader = new THREE.TextureLoader();
+            texLoader.setCrossOrigin('anonymous');
+
+            texLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg', (tex) => {
+                earthUniforms.uDayTexture.value = tex;
+                gsap.to(earthUniforms.uDayTextureLoaded, { value: 1.0, duration: 1.5 });
+            }, undefined, (err) => console.warn("Day map fail load:", err));
+
+            texLoader.load('https://unpkg.com/three-globe/example/img/earth-night.jpg', (tex) => {
+                earthUniforms.uNightTexture.value = tex;
+                gsap.to(earthUniforms.uNightTextureLoaded, { value: 1.0, duration: 1.5 });
+            }, undefined, (err) => console.warn("Night map fail load:", err));
+
+            texLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png', (tex) => {
+                earthUniforms.uBumpTexture.value = tex;
+                gsap.to(earthUniforms.uBumpTextureLoaded, { value: 1.0, duration: 1.5 });
+            }, undefined, (err) => console.warn("Topology map fail load:", err));
+
+
+            // ================== SCENE 2: LUXURY ROOFTOP ==================
+
+            // Sunset Skybox Dome
+            const skyGeo = new THREE.SphereGeometry(600, 32, 15);
+            const skyMat = new THREE.ShaderMaterial({
+                vertexShader: skyboxVertexShader,
+                fragmentShader: skyboxFragmentShader,
+                side: THREE.BackSide
+            });
+            skyboxMesh = new THREE.Mesh(skyGeo, skyMat);
+            rooftopGroup.add(skyboxMesh);
+
+            // Rooftop Deck Floor
+            const deckGeo = new THREE.BoxGeometry(60, 2, 80);
+            const woodPlankTex = createWoodPlankTexture();
+            const deckMat = new THREE.MeshStandardMaterial({
+                map: woodPlankTex,
+                roughness: 0.35,
+                metalness: 0.05
+            });
+            deckMesh = new THREE.Mesh(deckGeo, deckMat);
+            deckMesh.position.set(0, -1, -20);
+            rooftopGroup.add(deckMesh);
+
+            // Glass Railings with Glowing LED Golden Edge
+            const glassRailings = new THREE.Group();
+            rooftopGroup.add(glassRailings);
+
+            const glassRailMat = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.15,
+                roughness: 0.05,
+                metalness: 0.9,
+                transmission: 0.95,
+                thickness: 1.2,
+                depthWrite: false
+            });
+
+            const topEdgeGlowMat = new THREE.MeshStandardMaterial({
+                color: 0xD4AF37,
+                emissive: 0xD4AF37,
+                emissiveIntensity: 2.5
+            });
+
+            // Front Railing (at z = -60)
+            const frontRailGeo = new THREE.BoxGeometry(60, 4.2, 0.15);
+            const frontRail = new THREE.Mesh(frontRailGeo, glassRailMat);
+            frontRail.position.set(0, 2.1, -60);
+            glassRailings.add(frontRail);
+
+            const frontEdgeGlow = new THREE.Mesh(new THREE.BoxGeometry(60, 0.1, 0.3), topEdgeGlowMat);
+            frontEdgeGlow.position.set(0, 4.25, -60);
+            glassRailings.add(frontEdgeGlow);
+
+            // Left Railing (at x = -30)
+            const sideRailGeo = new THREE.BoxGeometry(0.15, 4.2, 80);
+            const leftRail = new THREE.Mesh(sideRailGeo, glassRailMat);
+            leftRail.position.set(-30, 2.1, -20);
+            glassRailings.add(leftRail);
+
+            const leftEdgeGlow = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 80), topEdgeGlowMat);
+            leftEdgeGlow.position.set(-30, 4.25, -20);
+            glassRailings.add(leftEdgeGlow);
+
+            // Right Railing (at x = 30)
+            const rightRail = new THREE.Mesh(sideRailGeo, glassRailMat);
+            rightRail.position.set(30, 2.1, -20);
+            glassRailings.add(rightRail);
+
+            const rightEdgeGlow = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 80), topEdgeGlowMat);
+            rightEdgeGlow.position.set(30, 4.25, -20);
+            glassRailings.add(rightEdgeGlow);
+
+            // Tables, Chairs & Flickering Candlelights
+            const tablesList = [
+                { x: -14, z: -15 },
+                { x: 14, z: -15 },
+                { x: 0, z: -30 },
+                { x: -16, z: -40 },
+                { x: 16, z: -40 }
+            ];
+
+            const chairSeatMat = new THREE.MeshStandardMaterial({ color: 0x181818, roughness: 0.9 });
+            const chairLegMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.8, roughness: 0.2 });
+            const tableLegMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.9, roughness: 0.1 });
+            const tableTopMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.8 });
+
+            tablesList.forEach((pos) => {
+                const tableGrp = new THREE.Group();
+                tableGrp.position.set(pos.x, 0, pos.z);
+
+                // Table Base Cylinder
+                const tBase = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.35, 3.2, 16), tableLegMat);
+                tBase.position.y = 1.6;
+                tableGrp.add(tBase);
+
+                // Table Circular Top
+                const tTop = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 0.12, 32), tableTopMat);
+                tTop.position.y = 3.2;
+                tableGrp.add(tTop);
+
+                // Candle Body
+                const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 8), new THREE.MeshBasicMaterial({ color: 0xfbfbfb }));
+                candle.position.y = 3.45;
+                tableGrp.add(candle);
+
+                // Flame
+                const flame = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffa033 }));
+                flame.position.y = 3.75;
+                tableGrp.add(flame);
+
+                // Warm Flickering PointLight
+                const candleLight = new THREE.PointLight(0xff7c26, 1.8, 16);
+                candleLight.position.set(0, 3.8, 0);
+                candleLight.flickerOffset = Math.random() * 100;
+                tableGrp.add(candleLight);
+                tableLights.push(candleLight);
+
+                // Two Chairs per Table
+                for (let c = 0; c < 2; c++) {
+                    const chair = new THREE.Group();
+                    const angle = c * Math.PI + Math.PI / 4;
+                    chair.position.set(Math.cos(angle) * 3.4, 0, Math.sin(angle) * 3.4);
+                    chair.rotation.y = -angle + Math.PI / 2;
+
+                    // Seat
+                    const seat = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.18, 1.2), chairSeatMat);
+                    seat.position.y = 1.7;
+                    chair.add(seat);
+
+                    // Backrest
+                    const back = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.6, 0.12), chairSeatMat);
+                    back.position.set(0, 2.5, -0.5);
+                    chair.add(back);
+
+                    // Legs
+                    const legG = new THREE.CylinderGeometry(0.06, 0.06, 1.7, 8);
+                    for (let l = 0; l < 4; l++) {
+                        const lx = (l % 2 === 0 ? 0.5 : -0.5);
+                        const lz = (l < 2 ? 0.5 : -0.5);
+                        const cl = new THREE.Mesh(legG, chairLegMat);
+                        cl.position.set(lx, 0.85, lz);
+                        chair.add(cl);
+                    }
+                    tableGrp.add(chair);
+                }
+
+                rooftopGroup.add(tableGrp);
+            });
+
+            // Lighting for Rooftop
+            const rooftopAmbient = new THREE.AmbientLight(0x1a121e, 0.4);
+            rooftopGroup.add(rooftopAmbient);
+
+            const skySunsetLight = new THREE.DirectionalLight(0xff6a00, 1.8);
+            skySunsetLight.position.set(0, 6, -100);
+            rooftopGroup.add(skySunsetLight);
+
+
+            // ================== SCROLL TIMELINE CREATION ==================
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#earth-scroll-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true,
+                    onUpdate: (self) => {
+                        const prog = self.progress;
+
+                        // Toggle instruction-overlay
+                        if (prog > 0.05) {
+                            gsap.to("#instruction-overlay", { opacity: 0, pointerEvents: "none", overwrite: "auto", duration: 0.3 });
+                        } else {
+                            gsap.to("#instruction-overlay", { opacity: 1, pointerEvents: "auto", overwrite: "auto", duration: 0.3 });
+                        }
+
+                        // Toggle story-frame-3 (Welcome text)
+                        if (prog >= 0.81) {
+                            const t = (prog - 0.81) / 0.14;
+                            const opacity = Math.min(Math.max(t, 0), 1);
+                            const yOffset = 20 - (opacity * 20);
+                            gsap.to("#story-frame-3", { opacity: opacity, y: yOffset, overwrite: "auto", duration: 0.1 });
+                        } else {
+                            gsap.to("#story-frame-3", { opacity: 0, overwrite: "auto", duration: 0.1 });
+                        }
+
+                        // Double-guarded scene toggling & Navbar / content fading at boundary 0.80
+                        const header = document.getElementById('top-header');
+                        const mainContent = document.getElementById('main-content');
+                        
+                        if (prog >= 0.80) {
+                            if (spaceGroup) spaceGroup.visible = false;
+                            if (rooftopGroup) rooftopGroup.visible = true;
+
+                            // Reveal Top Navigation
+                            if (header) {
+                                header.classList.remove('opacity-0', 'pointer-events-none');
+                                header.classList.add('opacity-100');
+                            }
+
+                            // Reveal Main Content Sections
+                            if (mainContent) {
+                                mainContent.classList.remove('opacity-0', 'pointer-events-none');
+                                mainContent.classList.add('opacity-100');
+                            }
+                        } else {
+                            if (spaceGroup) spaceGroup.visible = true;
+                            if (rooftopGroup) rooftopGroup.visible = false;
+
+                            // Hide Top Navigation
+                            if (header) {
+                                header.classList.add('opacity-0', 'pointer-events-none');
+                                header.classList.remove('opacity-100');
+                            }
+
+                            // Hide Main Content Sections
+                            if (mainContent) {
+                                mainContent.classList.add('opacity-0', 'pointer-events-none');
+                                mainContent.classList.remove('opacity-100');
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 1. Lock Earth rotation to target Chandrapur coordinate: progress 0.0 -> 0.45
+            tl.to(animParams, {
+                lerpFactor: 1.0,
+                ease: "power1.inOut",
+                duration: 0.45
+            }, 0.0);
+
+            // 2. Camera zoom down from space: progress 0.35 -> 0.77
+            tl.to(animParams, {
+                cameraZ: 204.8,
+                ease: "power2.in",
+                duration: 0.42
+            }, 0.35);
+
+            // 3. Sunset overlay transition (screen wipe): progress 0.72 -> 0.80 (fully opaque at 0.80)
+            tl.to("#transition-overlay", {
+                opacity: 1.0,
+                ease: "none",
+                duration: 0.08
+            }, 0.72);
+
+            // 4. Fade out sunset transition overlay: progress 0.80 -> 0.90
+            tl.to("#transition-overlay", {
+                opacity: 0.0,
+                ease: "none",
+                duration: 0.10
+            }, 0.80);
+
+            // 5. Rooftop landing reveal glide: progress 0.80 -> 1.0
+            tl.to(animParams, {
+                rooftopProgress: 1.0,
+                ease: "power1.out",
+                duration: 0.20
+            }, 0.80);
+
+
+            // --- Start Animation Loop ---
+            let idleAngle = 0;
+            animate(0);
+
+            function animate(time) {
+                requestAnimationFrame(animate);
+                const progress = tl.scrollTrigger ? tl.scrollTrigger.progress : 0;
+
+                if (progress < 0.80) {
+                    // Update Earth Spin (idle when scroll is near zero, then locked)
+                    if (progress < 0.03) {
+                        idleAngle += 0.0012;
+                    } else {
+                        idleAngle *= 0.92; // smooth fade-out of idle spin
+                    }
+                    
+                    const idleRot = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), idleAngle);
+                    
+                    // Rotation needed to make Chandrapur face camera (+Z)
+                    const fromVec = chandrapurPos.clone().normalize();
+                    const toVec = new THREE.Vector3(0, 0, 1);
+                    const targetRot = new THREE.Quaternion().setFromUnitVectors(fromVec, toVec);
+                    
+                    // Spherical linear interpolation between idle spin and locked target orientation
+                    earthMesh.quaternion.copy(idleRot).slerp(targetRot, animParams.lerpFactor);
+                    
+                    // Marker pulse micro-animations
+                    const rPulse = 1.0 + Math.sin(time * 0.004) * 0.12;
+                    markerRing.scale.set(rPulse, rPulse, 1.0);
+                    
+                    const cPulse = 1.0 + Math.sin(time * 0.012) * 0.18;
+                    markerCore.scale.set(cPulse, cPulse, cPulse);
+
+                    // Stars rotation and slow camera movement on intro
+                    starfield.rotation.y = time * 0.000012;
+                    
+                    // Add subtle camera float on Phase 1 space view
+                    let floatX = 0;
+                    let floatY = 0;
+                    if (progress < 0.1) {
+                        floatX = Math.sin(time * 0.0008) * 8.0;
+                        floatY = Math.cos(time * 0.0006) * 5.0;
+                    }
+
+                    // Camera position setup
+                    camera.position.set(floatX, floatY, animParams.cameraZ);
+                    camera.lookAt(spaceTarget);
+
+                    // HTML Marker screen-space projection
+                    const markerEl = document.getElementById('projected-marker');
+                    if (markerEl) {
+                        const tempV = new THREE.Vector3();
+                        markerGroup.getWorldPosition(tempV);
+                        
+                        // Project 3D vector to screen-space NDC (-1 to 1)
+                        tempV.project(camera);
+                        
+                        const isBehindCamera = tempV.z > 1;
+                        
+                        // Sphere occlusion check
+                        const cameraDir = new THREE.Vector3().copy(camera.position).normalize();
+                        const markerWorldPos = new THREE.Vector3();
+                        markerGroup.getWorldPosition(markerWorldPos);
+                        const markerDir = markerWorldPos.clone().normalize();
+                        const dot = cameraDir.dot(markerDir);
+                        const isOccluded = dot < 0.2; // hide if rotated too far away
+                        
+                        if (!isBehindCamera && !isOccluded && progress > 0.4 && progress < 0.8) {
+                            const x = (tempV.x * 0.5 + 0.5) * window.innerWidth;
+                            const y = (tempV.y * -0.5 + 0.5) * window.innerHeight;
+                            markerEl.style.left = `${x}px`;
+                            markerEl.style.top = `${y}px`;
+                            
+                            // Smoothly fade marker in from progress 0.40 to 0.55, and fade out at 0.75 to 0.80
+                            let markerOpacity = 0;
+                            if (progress >= 0.4 && progress < 0.55) {
+                                markerOpacity = (progress - 0.4) / 0.15;
+                            } else if (progress >= 0.55 && progress < 0.75) {
+                                markerOpacity = 1.0;
+                            } else if (progress >= 0.75 && progress < 0.8) {
+                                markerOpacity = (0.8 - progress) / 0.05;
+                            }
+                            markerEl.style.opacity = markerOpacity;
+                            markerEl.style.transform = `translate(-50%, -100%) scale(${0.8 + markerOpacity * 0.2})`;
+                        } else {
+                            markerEl.style.opacity = 0;
+                        }
+                    }
+                } else {
+                    // Rooftop Render Loop
+                    
+                    // Hide projected marker when in rooftop mode
+                    const markerEl = document.getElementById('projected-marker');
+                    if (markerEl) {
+                        markerEl.style.opacity = 0;
+                    }
+
+                    // Table candles flicker micro-animation
+                    tableLights.forEach((light) => {
+                        light.intensity = 1.8 + Math.sin(time * 0.008 + light.flickerOffset) * 0.35 + (Math.random() - 0.5) * 0.08;
+                    });
+
+                    // Camera path interpolation
+                    const t = animParams.rooftopProgress;
+                    let camX = 0;
+                    let camY = THREE.MathUtils.lerp(35, 6, t);
+                    let camZ = THREE.MathUtils.lerp(45, 12, t);
+
+                    // Mouse Parallax effect at the landing stage
+                    if (t > 0.94) {
+                        const pxX = mouseX * 3.6;
+                        const pxY = mouseY * -1.8;
+                        camX += pxX;
+                        camY += pxY;
+                    }
+
+                    camera.position.set(camX, camY, camZ);
+
+                    // Settle target look-at vector
+                    const targetVec = new THREE.Vector3().lerpVectors(rooftopTargetStart, rooftopTargetEnd, t);
+                    
+                    if (t > 0.94) {
+                        targetVec.x += mouseX * 5.0;
+                        targetVec.y += mouseY * 1.8;
+                    }
+                    camera.lookAt(targetVec);
+                }
+
+                renderer.render(scene, camera);
+            }
+
+            // Window Resize Handler
+            window.addEventListener('resize', () => {
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+                renderer.setSize(w, h);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            });
+
+            // --- 6. Real Canoppy Menu Interactive Logic ---
+            const searchInput = document.getElementById('menu-search-input');
+            const menuCards = document.querySelectorAll('.menu-item-card');
+            const categorySections = document.querySelectorAll('.menu-category-section');
+            const tabs = document.querySelectorAll('.menu-tab');
+            const filterAllBtn = document.getElementById('filter-all-btn');
+            const filterVegBtn = document.getElementById('filter-veg-btn');
+
+            let isVegOnly = false;
+
+            // Search & veg filter logic
+            function filterMenu() {
+                const query = searchInput.value.toLowerCase().trim();
+                
+                categorySections.forEach(section => {
+                    let visibleCount = 0;
+                    const cards = section.querySelectorAll('.menu-item-card');
+                    
+                    cards.forEach(card => {
+                        const name = card.getAttribute('data-name').toLowerCase();
+                        const desc = card.querySelector('p').textContent.toLowerCase();
+                        const isVeg = card.getAttribute('data-veg') === 'true';
+                        
+                        const matchesSearch = name.includes(query) || desc.includes(query);
+                        const matchesVeg = !isVegOnly || isVeg;
+                        
+                        if (matchesSearch && matchesVeg) {
+                            card.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    if (visibleCount > 0) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+
+                // Fade-in animation for remaining visible cards
+                const visibleCards = Array.from(menuCards).filter(c => c.style.display === 'flex');
+                if (visibleCards.length > 0) {
+                    gsap.killTweensOf(visibleCards);
+                    gsap.fromTo(visibleCards, 
+                        { opacity: 0, y: 15 },
+                        { opacity: 1, y: 0, duration: 0.4, stagger: 0.02, ease: "power1.out", overwrite: "auto" }
+                    );
+                }
+                
+                ScrollTrigger.refresh();
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterMenu);
+            }
+
+            // All / Veg Filter Buttons
+            if (filterAllBtn && filterVegBtn) {
+                filterAllBtn.addEventListener('click', () => {
+                    isVegOnly = false;
+                    filterAllBtn.classList.add('bg-primary', 'text-on-primary');
+                    filterAllBtn.classList.remove('border', 'border-primary/20', 'text-primary');
+                    filterVegBtn.classList.add('border', 'border-primary/20', 'text-primary');
+                    filterVegBtn.classList.remove('bg-primary', 'text-on-primary');
+                    filterMenu();
+                });
+
+                filterVegBtn.addEventListener('click', () => {
+                    isVegOnly = true;
+                    filterVegBtn.classList.add('bg-primary', 'text-on-primary');
+                    filterVegBtn.classList.remove('border', 'border-primary/20', 'text-primary');
+                    filterAllBtn.classList.add('border', 'border-primary/20', 'text-primary');
+                    filterAllBtn.classList.remove('bg-primary', 'text-on-primary');
+                    filterMenu();
+                });
+            }
+
+            // Smooth Scroll Category Clicks
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = tab.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection && lenis) {
+                        lenis.scrollTo(targetSection, { offset: -160, duration: 1.2 });
+                    }
+                });
+            });
+
+            // GSAP ScrollTrigger for Category Section Animations
+            categorySections.forEach(section => {
+                const cards = section.querySelectorAll('.menu-item-card');
+                gsap.from(cards, {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 0,
+                    y: 25,
+                    duration: 0.6,
+                    stagger: 0.04,
+                    ease: "power2.out"
+                });
+
+                // Scroll Active Tabs Highlighting
+                const id = section.getAttribute('id');
+                const matchingTab = document.querySelector(`.menu-tab[href="#${id}"]`);
+                
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top 200px",
+                    end: "bottom 200px",
+                    onToggle: (self) => {
+                        if (self.isActive && matchingTab) {
+                            tabs.forEach(t => {
+                                t.classList.remove('text-primary', 'border-primary');
+                                t.classList.add('text-on-surface/60', 'border-transparent');
+                            });
+                            matchingTab.classList.add('text-primary', 'border-primary');
+                            matchingTab.classList.remove('text-on-surface/60', 'border-transparent');
+                            
+                            // Align category tabs container scroll
+                            const tabsContainer = document.getElementById('menu-category-tabs');
+                            if (tabsContainer) {
+                                const tabOffsetLeft = matchingTab.offsetLeft;
+                                const tabWidth = matchingTab.offsetWidth;
+                                const containerWidth = tabsContainer.offsetWidth;
+                                tabsContainer.scrollTo({
+                                    left: tabOffsetLeft - (containerWidth / 2) + (tabWidth / 2),
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        // --- 5. Helper Procedural Texture Functions ---
+        
+        // Soft cloud sprite canvas texture
+        function createCloudTexture() {
+            const size = 128;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            grad.addColorStop(0.0, 'rgba(255, 235, 195, 0.85)'); // Golden sunrise centers
+            grad.addColorStop(0.3, 'rgba(255, 255, 255, 0.45)');
+            grad.addColorStop(1.0, 'rgba(255, 255, 255, 0.0)');
+            
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, size, size);
+            
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.needsUpdate = true;
+            return tex;
+        }
+
+        // Dark wood floor planks texture
+        function createWoodPlankTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Dark Charcoal/Midnight Brown base
+            ctx.fillStyle = '#181615';
+            ctx.fillRect(0, 0, 512, 512);
+
+            // Drawing longitudinal plank lines
+            ctx.strokeStyle = '#0d0c0c';
+            ctx.lineWidth = 3;
+            for (let x = 0; x <= 512; x += 64) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, 512);
+                ctx.stroke();
+            }
+
+            // Add fine organic wood lines noise
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.012)';
+            for (let i = 0; i < 2000; i++) {
+                const px = Math.random() * 512;
+                const py = Math.random() * 512;
+                const pw = 1.5;
+                const ph = 12 + Math.random() * 45;
+                ctx.fillRect(px, py, pw, ph);
+            }
+
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.wrapS = THREE.RepeatWrapping;
+            tex.wrapT = THREE.RepeatWrapping;
+            tex.repeat.set(4, 4);
+            tex.needsUpdate = true;
+            return tex;
+        }
+
+        // Lat/Lon Spherical coordinate mapping helper
+        function latLonToVector3(lat, lon, r) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            const cx = -r * Math.sin(phi) * Math.sin(theta);
+            const cy = r * Math.cos(phi);
+            const cz = r * Math.sin(phi) * Math.cos(theta);
+            return new THREE.Vector3(cx, cy, cz);
+        }
+    </script>
+</body></html>
