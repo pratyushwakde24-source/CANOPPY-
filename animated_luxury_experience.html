@@ -200,10 +200,21 @@
 <a class="text-on-surface/80 font-body-md text-body-md hover:text-primary transition-colors" href="#gallery">Gallery</a>
 <a class="bg-primary text-on-primary px-8 py-3 font-label-caps text-label-caps tracking-widest hover:brightness-110 active:scale-95 transition-all inline-block text-center" href="#reservation">RESERVE</a>
 </div>
-<button class="md:hidden text-primary">
-<span class="material-symbols-outlined text-3xl">menu</span>
+<button id="mobile-menu-btn" class="md:hidden text-primary p-3 relative z-[9999] pointer-events-auto flex items-center justify-center" aria-label="Toggle Mobile Menu" style="min-width: 48px; min-height: 48px;">
+<span class="material-symbols-outlined text-3xl pointer-events-none">menu</span>
 </button>
 </header>
+
+<!-- Mobile Navigation Menu -->
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+<nav id="mobile-menu-panel" class="fixed top-0 right-0 h-full w-[80vw] max-w-sm bg-surface-container-low border-l border-white/10 z-[10000] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col px-8 py-24 shadow-2xl">
+    <div class="flex flex-col gap-8 text-center mt-12">
+        <a href="#experience" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary transition-colors">Experience</a>
+        <a href="#menu" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary transition-colors">Menu</a>
+        <a href="#gallery" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary transition-colors">Gallery</a>
+        <a href="#reservation" class="mobile-nav-link bg-primary text-on-primary px-8 py-4 mt-8 font-label-caps text-label-caps tracking-widest rounded-sm active:scale-95 transition-all">RESERVE</a>
+    </div>
+</nav>
 <!-- Hero Section (400vh scroll track) -->
 <section id="earth-scroll-container" class="relative h-[400vh] bg-[#0c0c0c] z-10">
     <!-- Sticky WebGL & Story Viewport -->
@@ -2302,6 +2313,84 @@
                         successMsg.classList.add('hidden');
                         form.reset();
                     }, 1000);
+                });
+            }
+
+            // Mobile Menu Logic
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+            const mobilePanel = document.getElementById('mobile-menu-panel');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            const mobileBtnIcon = mobileBtn ? mobileBtn.querySelector('span') : null;
+            let menuOpen = false;
+
+            function toggleMenu(e) {
+                if (e && e.cancelable) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                menuOpen = !menuOpen;
+                console.log("Mobile menu toggled. Open:", menuOpen);
+                
+                if (menuOpen) {
+                    // Open Menu
+                    mobileOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileOverlay.classList.add('opacity-100', 'pointer-events-auto');
+                    
+                    mobilePanel.classList.remove('translate-x-full');
+                    mobilePanel.classList.add('translate-x-0');
+                    
+                    mobileBtnIcon.textContent = 'close';
+                    document.body.style.overflow = "hidden"; // Prevent background scroll
+                    
+                    // Pause Lenis if it exists
+                    if (typeof lenis !== 'undefined') lenis.stop();
+                } else {
+                    // Close Menu
+                    mobileOverlay.classList.add('opacity-0', 'pointer-events-none');
+                    mobileOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+                    
+                    mobilePanel.classList.add('translate-x-full');
+                    mobilePanel.classList.remove('translate-x-0');
+                    
+                    mobileBtnIcon.textContent = 'menu';
+                    document.body.style.overflow = "clip"; // Restore scroll
+                    
+                    // Resume Lenis if it exists
+                    if (typeof lenis !== 'undefined') lenis.start();
+                }
+            }
+
+            if (mobileBtn) {
+                mobileBtn.addEventListener('click', toggleMenu);
+                mobileBtn.addEventListener('touchstart', (e) => {
+                    // Catch touchstart to avoid 300ms delay and prevent double-firing
+                    if (e.cancelable) e.preventDefault();
+                    toggleMenu(e);
+                }, {passive: false});
+            }
+
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', (e) => {
+                    if (menuOpen) toggleMenu(e);
+                });
+                mobileOverlay.addEventListener('touchstart', (e) => {
+                    if (e.cancelable) e.preventDefault();
+                    if (menuOpen) toggleMenu(e);
+                }, {passive: false});
+            }
+
+            if (mobileLinks) {
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        const targetId = link.getAttribute('href');
+                        if (menuOpen) toggleMenu(e);
+                        
+                        if (typeof lenis !== 'undefined' && targetId.startsWith('#')) {
+                            e.preventDefault();
+                            lenis.scrollTo(targetId);
+                        }
+                    });
                 });
             }
         });
