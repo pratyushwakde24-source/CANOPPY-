@@ -138,6 +138,27 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* ---- Real Canoppy Photo Overlay ---- */
+        #real-rooftop-overlay {
+            transition: opacity 0.6s ease-out;
+            z-index: 1;
+        }
+        #rooftop-hero-img {
+            transition: transform 0.12s ease-out;
+            will-change: transform;
+        }
+        @keyframes rooftopSlowZoom {
+            from { transform: scale(1.18) translate(0px, 0px); }
+            to   { transform: scale(1.08) translate(0px, 0px); }
+        }
+        #real-rooftop-overlay.visible #rooftop-hero-img {
+            animation: rooftopSlowZoom 6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+        /* Story frame bottom positioning on small screens */
+        @media (max-width: 480px) {
+            #story-frame-3 h1 { font-size: 2rem; line-height: 1.2; }
+        }
     </style>
 <style>
     body {
@@ -165,6 +186,24 @@
     <div id="earth-viewport" class="sticky top-0 w-full h-screen overflow-hidden">
         <!-- WebGL Canvas Container -->
         <div id="webgl-canvas-container" class="absolute inset-0 w-full h-full z-0"></div>
+
+        <!-- REAL CANOPPY ROOFTOP PHOTO OVERLAY (replaces orange 3D scene) -->
+        <div id="real-rooftop-overlay" class="absolute inset-0 w-full h-full z-1 opacity-0 pointer-events-none" aria-hidden="true">
+            <!-- Photo layer -->
+            <div id="rooftop-photo-layer" class="absolute inset-0 w-full h-full overflow-hidden">
+                <img
+                    id="rooftop-hero-img"
+                    src="assets/images/canoppy-aerial-night.jpg.webp"
+                    alt="Canoppy Chandrapur rooftop aerial night view"
+                    class="w-full h-full"
+                    style="object-fit:cover;object-position:center;transform:scale(1.08) translate(0px,0px);will-change:transform;"
+                />
+            </div>
+            <!-- Dark luxury overlay -->
+            <div class="absolute inset-0" style="background:linear-gradient(to bottom, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0.45) 60%, rgba(5,5,5,0.72) 100%);"></div>
+            <!-- Golden glow accent -->
+            <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 45% at 50% 80%, rgba(212,175,55,0.10) 0%, transparent 70%);"></div>
+        </div>
         
         <!-- Instruction Overlay (Pulsating Scroll to Begin Journey) -->
         <div id="instruction-overlay" class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none transition-opacity duration-700">
@@ -184,17 +223,22 @@
             </div>
         </div>
 
-        <!-- Story Frame 3: Entering the Clouds & Settle -->
-        <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-10 px-margin-mobile">
+        <!-- Story Frame 3: Rooftop Landing Text -->
+        <div class="absolute inset-0 pointer-events-none flex items-end justify-center z-10 px-margin-mobile pb-24 md:pb-28">
             <div id="story-frame-3" class="text-center max-w-4xl opacity-0 translate-y-10 transition-all duration-[1200ms] ease-out pointer-events-auto">
-                <span class="text-primary font-label-caps text-label-caps tracking-[0.4em] mb-4 block">CANOPY CHANDRAPUR</span>
-                <h1 class="font-display-lg text-4xl md:text-6xl leading-tight mb-6">Welcome To Canoppy</h1>
-                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
-                    Trends Building, Nagpur Road. The city's signature rooftop for global cuisine and sunset mixology.
+                <!-- Gold rule line -->
+                <div class="flex items-center justify-center gap-4 mb-6">
+                    <div class="h-px w-16 bg-primary/50"></div>
+                    <span class="text-primary font-label-caps text-label-caps tracking-[0.5em] text-[10px]">CANOPPY CHANDRAPUR</span>
+                    <div class="h-px w-16 bg-primary/50"></div>
+                </div>
+                <h1 class="font-display-lg text-4xl md:text-6xl lg:text-7xl leading-tight mb-5" style="text-shadow:0 2px 40px rgba(0,0,0,0.7);">Experience Chandrapur's<br>Most Premium Rooftop</h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-3" style="text-shadow:0 1px 12px rgba(0,0,0,0.8);">
+                    Signature Dining &nbsp;•&nbsp; Sunset Views &nbsp;•&nbsp; Rooftop Experiences
                 </p>
-                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                    <a class="bg-primary text-on-primary px-12 py-5 font-label-caps text-label-caps tracking-[0.3em] hover:bg-primary-container hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/10" href="#reservation">BOOK A TABLE</a>
-                    <a class="border border-primary/40 text-primary px-12 py-5 font-label-caps text-label-caps tracking-[0.3em] hover:bg-primary/10 hover:scale-105 active:scale-95 transition-all backdrop-blur-sm" href="#menu">VIEW MENU</a>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+                    <a class="bg-primary text-on-primary px-10 py-4 font-label-caps text-label-caps tracking-[0.3em] hover:brightness-110 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20" href="#reservation">BOOK A TABLE</a>
+                    <a class="border border-primary/50 text-primary px-10 py-4 font-label-caps text-label-caps tracking-[0.3em] hover:bg-primary/10 hover:scale-105 active:scale-95 transition-all backdrop-blur-sm" href="#menu">VIEW MENU</a>
                 </div>
             </div>
         </div>
@@ -1415,7 +1459,7 @@
         let scene, camera, renderer;
         let spaceGroup, rooftopGroup;
         let starfield, earthMesh, atmosphereMesh, markerRing, markerCore, markerGroup;
-        let skyboxMesh, deckMesh, tableLights = [];
+        // (skyboxMesh/deckMesh/tableLights removed — replaced by CSS photo overlay)
         
         // Target Coordinates for Chandrapur
         const lat = 19.9615;
@@ -1430,10 +1474,8 @@
             rooftopProgress: 0.0
         };
 
-        // Rooftop camera paths
+        // Space camera look-at target
         const spaceTarget = new THREE.Vector3(0, 0, 0);
-        const rooftopTargetStart = new THREE.Vector3(0, 5, -5);
-        const rooftopTargetEnd = new THREE.Vector3(0, 5.5, -50);
 
         // Mouse Parallax coordinates
         let mouseX = 0, mouseY = 0;
@@ -1633,164 +1675,10 @@
             }, undefined, (err) => console.warn("Topology map fail load:", err));
 
 
-            // ================== SCENE 2: LUXURY ROOFTOP ==================
-
-            // Sunset Skybox Dome
-            const skyGeo = new THREE.SphereGeometry(600, 32, 15);
-            const skyMat = new THREE.ShaderMaterial({
-                vertexShader: skyboxVertexShader,
-                fragmentShader: skyboxFragmentShader,
-                side: THREE.BackSide
-            });
-            skyboxMesh = new THREE.Mesh(skyGeo, skyMat);
-            rooftopGroup.add(skyboxMesh);
-
-            // Rooftop Deck Floor
-            const deckGeo = new THREE.BoxGeometry(60, 2, 80);
-            const woodPlankTex = createWoodPlankTexture();
-            const deckMat = new THREE.MeshStandardMaterial({
-                map: woodPlankTex,
-                roughness: 0.35,
-                metalness: 0.05
-            });
-            deckMesh = new THREE.Mesh(deckGeo, deckMat);
-            deckMesh.position.set(0, -1, -20);
-            rooftopGroup.add(deckMesh);
-
-            // Glass Railings with Glowing LED Golden Edge
-            const glassRailings = new THREE.Group();
-            rooftopGroup.add(glassRailings);
-
-            const glassRailMat = new THREE.MeshPhysicalMaterial({
-                color: 0xffffff,
-                transparent: true,
-                opacity: 0.15,
-                roughness: 0.05,
-                metalness: 0.9,
-                transmission: 0.95,
-                thickness: 1.2,
-                depthWrite: false
-            });
-
-            const topEdgeGlowMat = new THREE.MeshStandardMaterial({
-                color: 0xD4AF37,
-                emissive: 0xD4AF37,
-                emissiveIntensity: 2.5
-            });
-
-            // Front Railing (at z = -60)
-            const frontRailGeo = new THREE.BoxGeometry(60, 4.2, 0.15);
-            const frontRail = new THREE.Mesh(frontRailGeo, glassRailMat);
-            frontRail.position.set(0, 2.1, -60);
-            glassRailings.add(frontRail);
-
-            const frontEdgeGlow = new THREE.Mesh(new THREE.BoxGeometry(60, 0.1, 0.3), topEdgeGlowMat);
-            frontEdgeGlow.position.set(0, 4.25, -60);
-            glassRailings.add(frontEdgeGlow);
-
-            // Left Railing (at x = -30)
-            const sideRailGeo = new THREE.BoxGeometry(0.15, 4.2, 80);
-            const leftRail = new THREE.Mesh(sideRailGeo, glassRailMat);
-            leftRail.position.set(-30, 2.1, -20);
-            glassRailings.add(leftRail);
-
-            const leftEdgeGlow = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 80), topEdgeGlowMat);
-            leftEdgeGlow.position.set(-30, 4.25, -20);
-            glassRailings.add(leftEdgeGlow);
-
-            // Right Railing (at x = 30)
-            const rightRail = new THREE.Mesh(sideRailGeo, glassRailMat);
-            rightRail.position.set(30, 2.1, -20);
-            glassRailings.add(rightRail);
-
-            const rightEdgeGlow = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 80), topEdgeGlowMat);
-            rightEdgeGlow.position.set(30, 4.25, -20);
-            glassRailings.add(rightEdgeGlow);
-
-            // Tables, Chairs & Flickering Candlelights
-            const tablesList = [
-                { x: -14, z: -15 },
-                { x: 14, z: -15 },
-                { x: 0, z: -30 },
-                { x: -16, z: -40 },
-                { x: 16, z: -40 }
-            ];
-
-            const chairSeatMat = new THREE.MeshStandardMaterial({ color: 0x181818, roughness: 0.9 });
-            const chairLegMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.8, roughness: 0.2 });
-            const tableLegMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.9, roughness: 0.1 });
-            const tableTopMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.8 });
-
-            tablesList.forEach((pos) => {
-                const tableGrp = new THREE.Group();
-                tableGrp.position.set(pos.x, 0, pos.z);
-
-                // Table Base Cylinder
-                const tBase = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.35, 3.2, 16), tableLegMat);
-                tBase.position.y = 1.6;
-                tableGrp.add(tBase);
-
-                // Table Circular Top
-                const tTop = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 0.12, 32), tableTopMat);
-                tTop.position.y = 3.2;
-                tableGrp.add(tTop);
-
-                // Candle Body
-                const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 8), new THREE.MeshBasicMaterial({ color: 0xfbfbfb }));
-                candle.position.y = 3.45;
-                tableGrp.add(candle);
-
-                // Flame
-                const flame = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffa033 }));
-                flame.position.y = 3.75;
-                tableGrp.add(flame);
-
-                // Warm Flickering PointLight
-                const candleLight = new THREE.PointLight(0xff7c26, 1.8, 16);
-                candleLight.position.set(0, 3.8, 0);
-                candleLight.flickerOffset = Math.random() * 100;
-                tableGrp.add(candleLight);
-                tableLights.push(candleLight);
-
-                // Two Chairs per Table
-                for (let c = 0; c < 2; c++) {
-                    const chair = new THREE.Group();
-                    const angle = c * Math.PI + Math.PI / 4;
-                    chair.position.set(Math.cos(angle) * 3.4, 0, Math.sin(angle) * 3.4);
-                    chair.rotation.y = -angle + Math.PI / 2;
-
-                    // Seat
-                    const seat = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.18, 1.2), chairSeatMat);
-                    seat.position.y = 1.7;
-                    chair.add(seat);
-
-                    // Backrest
-                    const back = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.6, 0.12), chairSeatMat);
-                    back.position.set(0, 2.5, -0.5);
-                    chair.add(back);
-
-                    // Legs
-                    const legG = new THREE.CylinderGeometry(0.06, 0.06, 1.7, 8);
-                    for (let l = 0; l < 4; l++) {
-                        const lx = (l % 2 === 0 ? 0.5 : -0.5);
-                        const lz = (l < 2 ? 0.5 : -0.5);
-                        const cl = new THREE.Mesh(legG, chairLegMat);
-                        cl.position.set(lx, 0.85, lz);
-                        chair.add(cl);
-                    }
-                    tableGrp.add(chair);
-                }
-
-                rooftopGroup.add(tableGrp);
-            });
-
-            // Lighting for Rooftop
-            const rooftopAmbient = new THREE.AmbientLight(0x1a121e, 0.4);
-            rooftopGroup.add(rooftopAmbient);
-
-            const skySunsetLight = new THREE.DirectionalLight(0xff6a00, 1.8);
-            skySunsetLight.position.set(0, 6, -100);
-            rooftopGroup.add(skySunsetLight);
+            // ================== SCENE 2: REAL CANOPPY PHOTO (CSS overlay — no 3D geometry needed) ==================
+            // The orange fake rooftop has been removed.
+            // The real Canoppy aerial photo is handled via #real-rooftop-overlay CSS div.
+            // rooftopGroup stays as an empty group so scene toggling logic is undisturbed.
 
 
             // ================== SCROLL TIMELINE CREATION ==================
@@ -1825,9 +1713,21 @@
                         const header = document.getElementById('top-header');
                         const mainContent = document.getElementById('main-content');
                         
+                        const photoOverlay = document.getElementById('real-rooftop-overlay');
+
                         if (prog >= 0.80) {
                             if (spaceGroup) spaceGroup.visible = false;
-                            if (rooftopGroup) rooftopGroup.visible = true;
+                            if (rooftopGroup) rooftopGroup.visible = false; // empty group, keep hidden
+
+                            // Show the real Canoppy photo overlay + trigger slow-zoom CSS anim
+                            if (photoOverlay) {
+                                const fadeT = Math.min((prog - 0.80) / 0.06, 1);
+                                photoOverlay.style.opacity = fadeT;
+                                photoOverlay.style.pointerEvents = 'none';
+                                if (!photoOverlay.classList.contains('visible')) {
+                                    photoOverlay.classList.add('visible');
+                                }
+                            }
 
                             // Reveal Top Navigation
                             if (header) {
@@ -1843,6 +1743,12 @@
                         } else {
                             if (spaceGroup) spaceGroup.visible = true;
                             if (rooftopGroup) rooftopGroup.visible = false;
+
+                            // Hide the real Canoppy photo overlay
+                            if (photoOverlay) {
+                                photoOverlay.style.opacity = 0;
+                                photoOverlay.classList.remove('visible');
+                            }
 
                             // Hide Top Navigation
                             if (header) {
@@ -1985,43 +1891,26 @@
                         }
                     }
                 } else {
-                    // Rooftop Render Loop
-                    
-                    // Hide projected marker when in rooftop mode
+                    // ---- REAL PHOTO ROOFTOP PHASE ----
+                    // WebGL canvas shows nothing (empty rooftopGroup).
+                    // The CSS photo overlay handles visuals.
+
+                    // Hide projected marker
                     const markerEl = document.getElementById('projected-marker');
-                    if (markerEl) {
-                        markerEl.style.opacity = 0;
+                    if (markerEl) markerEl.style.opacity = 0;
+
+                    // Mouse parallax on the real photo image
+                    const heroImg = document.getElementById('rooftop-hero-img');
+                    if (heroImg) {
+                        const px = mouseX * 18;   // gentle horizontal drift
+                        const py = mouseY * 10;   // gentle vertical drift
+                        // slow zoom: scale 1.08 always, translate with mouse
+                        heroImg.style.transform = `scale(1.08) translate(${px}px, ${py}px)`;
                     }
 
-                    // Table candles flicker micro-animation
-                    tableLights.forEach((light) => {
-                        light.intensity = 1.8 + Math.sin(time * 0.008 + light.flickerOffset) * 0.35 + (Math.random() - 0.5) * 0.08;
-                    });
-
-                    // Camera path interpolation
-                    const t = animParams.rooftopProgress;
-                    let camX = 0;
-                    let camY = THREE.MathUtils.lerp(35, 6, t);
-                    let camZ = THREE.MathUtils.lerp(45, 12, t);
-
-                    // Mouse Parallax effect at the landing stage
-                    if (t > 0.94) {
-                        const pxX = mouseX * 3.6;
-                        const pxY = mouseY * -1.8;
-                        camX += pxX;
-                        camY += pxY;
-                    }
-
-                    camera.position.set(camX, camY, camZ);
-
-                    // Settle target look-at vector
-                    const targetVec = new THREE.Vector3().lerpVectors(rooftopTargetStart, rooftopTargetEnd, t);
-                    
-                    if (t > 0.94) {
-                        targetVec.x += mouseX * 5.0;
-                        targetVec.y += mouseY * 1.8;
-                    }
-                    camera.lookAt(targetVec);
+                    // Keep camera parked (nothing to render in rooftopGroup)
+                    camera.position.set(0, 0, 500);
+                    camera.lookAt(0, 0, 0);
                 }
 
                 renderer.render(scene, camera);
