@@ -1731,21 +1731,20 @@
                 cloudsGroup.add(cloudSprite);
             }
 
-            // Asynchronous High-Res Texture Loading (CORS enabled on unpkg)
+            // Asynchronous High-Res Texture Loading (using local assets to prevent CSP block issues)
             const texLoader = new THREE.TextureLoader();
-            texLoader.setCrossOrigin('anonymous');
 
-            texLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg', (tex) => {
+            texLoader.load('assets/images/earth-blue-marble.jpg', (tex) => {
                 earthUniforms.uDayTexture.value = tex;
                 gsap.to(earthUniforms.uDayTextureLoaded, { value: 1.0, duration: 1.5 });
             }, undefined, (err) => console.warn("Day map fail load:", err));
 
-            texLoader.load('https://unpkg.com/three-globe/example/img/earth-night.jpg', (tex) => {
+            texLoader.load('assets/images/earth-night.jpg', (tex) => {
                 earthUniforms.uNightTexture.value = tex;
                 gsap.to(earthUniforms.uNightTextureLoaded, { value: 1.0, duration: 1.5 });
             }, undefined, (err) => console.warn("Night map fail load:", err));
 
-            texLoader.load('https://unpkg.com/three-globe/example/img/earth-topology.png', (tex) => {
+            texLoader.load('assets/images/earth-topology.png', (tex) => {
                 earthUniforms.uBumpTexture.value = tex;
                 gsap.to(earthUniforms.uBumpTextureLoaded, { value: 1.0, duration: 1.5 });
             }, undefined, (err) => console.warn("Topology map fail load:", err));
