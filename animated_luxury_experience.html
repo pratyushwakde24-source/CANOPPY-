@@ -7,10 +7,10 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" integrity="sha384-li4UtcFCH6QeUqR4JyV58/VgTprMuz9aauj+oWtew7V4Y7ZVjnvz5px9Y3UCG0Ea" crossorigin="anonymous"></script>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -1141,6 +1141,10 @@
 <p class="text-on-surface-variant font-body-md">Book your journey through the golden hour.</p>
 </div>
 <form id="whatsapp-reservation-form" class="space-y-8 relative z-10">
+<!-- Honeypot anti-spam field (hidden from users) -->
+<div class="hidden" aria-hidden="true">
+<input type="text" id="res-website-hp" name="res-website-hp" tabindex="-1" autocomplete="off" />
+</div>
 <div class="grid md:grid-cols-2 gap-8">
 <div class="relative group">
 <input id="res-name" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Your Name" type="text"/>
@@ -1152,6 +1156,7 @@
 </div>
 <div class="relative group">
 <input id="res-email" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Email Address" type="email"/>
+<div id="err-email" class="text-error text-xs hidden absolute -bottom-5">Valid email address is required</div>
 </div>
 <div class="relative group">
 <input id="res-date" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-0 transition-all text-on-surface/30 font-body-md" type="date"/>
@@ -2237,16 +2242,58 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const formLoadTime = Date.now();
+            
+            // Set minimum date to today to prevent booking in the past
+            const dateInput = document.getElementById('res-date');
+            if (dateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                let mm = today.getMonth() + 1;
+                let dd = today.getDate();
+                if (mm < 10) mm = '0' + mm;
+                if (dd < 10) dd = '0' + dd;
+                dateInput.min = `${yyyy}-${mm}-${dd}`;
+            }
+
+            const sanitize = (val) => {
+                if (!val) return '';
+                return val.replace(/<[^>]*>/g, '').trim();
+            };
+
             const form = document.getElementById('whatsapp-reservation-form');
             if (form) {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     
+                    // Anti-spam honeypot check
+                    const honeyPot = document.getElementById('res-website-hp');
+                    if (honeyPot && honeyPot.value) {
+                        console.warn("Spam detected (honeypot).");
+                        return;
+                    }
+                    
+                    // Anti-spam timing check
+                    if (Date.now() - formLoadTime < 2000) {
+                        console.warn("Spam detected (speed).");
+                        return;
+                    }
+
                     let isValid = true;
                     
                     const nameInput = document.getElementById('res-name');
                     const errName = document.getElementById('err-name');
-                    if (!nameInput.value.trim()) {
+                    const nameVal = sanitize(nameInput.value);
+                    if (!nameVal) {
+                        errName.textContent = "Name is required";
+                        errName.classList.remove('hidden');
+                        isValid = false;
+                    } else if (nameVal.length < 2 || nameVal.length > 50) {
+                        errName.textContent = "Name must be between 2 and 50 characters";
+                        errName.classList.remove('hidden');
+                        isValid = false;
+                    } else if (!/^[a-zA-Z\s'-]+$/.test(nameVal)) {
+                        errName.textContent = "Name can only contain letters, spaces, hyphens, and apostrophes";
                         errName.classList.remove('hidden');
                         isValid = false;
                     } else {
@@ -2255,26 +2302,64 @@
                     
                     const mobileInput = document.getElementById('res-mobile');
                     const errMobile = document.getElementById('err-mobile');
-                    const mobileVal = mobileInput.value.trim();
-                    if (!mobileVal || !/^[0-9+\-\\s()]{7,15}$/.test(mobileVal)) {
+                    const mobileVal = sanitize(mobileInput.value);
+                    if (!mobileVal) {
+                        errMobile.textContent = "Valid mobile number is required";
+                        errMobile.classList.remove('hidden');
+                        isValid = false;
+                    } else if (mobileVal.length < 7 || mobileVal.length > 15) {
+                        errMobile.textContent = "Mobile number must be between 7 and 15 digits";
+                        errMobile.classList.remove('hidden');
+                        isValid = false;
+                    } else if (!/^[0-9+\-\\s()]{7,15}$/.test(mobileVal)) {
+                        errMobile.textContent = "Please enter a valid phone number";
                         errMobile.classList.remove('hidden');
                         isValid = false;
                     } else {
                         errMobile.classList.add('hidden');
                     }
                     
-                    const dateInput = document.getElementById('res-date');
+                    const emailInput = document.getElementById('res-email');
+                    const errEmail = document.getElementById('err-email');
+                    const emailVal = sanitize(emailInput.value);
+                    if (emailVal) {
+                        if (emailVal.length > 100) {
+                            errEmail.textContent = "Email must be less than 100 characters";
+                            errEmail.classList.remove('hidden');
+                            isValid = false;
+                        } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailVal)) {
+                            errEmail.textContent = "Please enter a valid email address";
+                            errEmail.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            errEmail.classList.add('hidden');
+                        }
+                    } else {
+                        errEmail.classList.add('hidden');
+                    }
+                    
                     const errDate = document.getElementById('err-date');
                     if (!dateInput.value) {
+                        errDate.textContent = "Date is required";
                         errDate.classList.remove('hidden');
                         isValid = false;
                     } else {
-                        errDate.classList.add('hidden');
+                        const selectedDate = new Date(dateInput.value);
+                        const todayDate = new Date();
+                        todayDate.setHours(0, 0, 0, 0);
+                        if (selectedDate < todayDate) {
+                            errDate.textContent = "Date cannot be in the past";
+                            errDate.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            errDate.classList.add('hidden');
+                        }
                     }
                     
                     const guestsInput = document.getElementById('res-guests');
                     const errGuests = document.getElementById('err-guests');
-                    if (!guestsInput.value) {
+                    const allowedGuests = ["1", "2", "3", "4", "5", "6+"];
+                    if (!guestsInput.value || !allowedGuests.includes(guestsInput.value)) {
                         errGuests.classList.remove('hidden');
                         isValid = false;
                     } else {
@@ -2283,9 +2368,8 @@
                     
                     if (!isValid) return;
                     
-                    const emailVal = document.getElementById('res-email').value.trim();
-                    const timeVal = document.getElementById('res-time').value.trim();
-                    const specialVal = document.getElementById('res-special').value.trim();
+                    const timeVal = sanitize(document.getElementById('res-time').value);
+                    const specialVal = sanitize(document.getElementById('res-special').value).substring(0, 500);
                     const btn = form.querySelector('button[type="submit"]');
                     const successMsg = document.getElementById('res-success');
                     
@@ -2293,7 +2377,7 @@
                     btn.classList.add('opacity-50', 'cursor-not-allowed');
                     successMsg.classList.remove('hidden');
                     
-                    const message = `🍽️ NEW TABLE RESERVATION\n\nName: ${nameInput.value.trim()}\nMobile: ${mobileVal}\nEmail: ${emailVal || 'N/A'}\n\nDate: ${dateInput.value}\nTime: ${timeVal || 'N/A'}\nGuests: ${guestsInput.value}\n\nSpecial Request:\n${specialVal || 'None'}\n\nSent from CANOPPY Website`;
+                    const message = `🍽️ NEW TABLE RESERVATION\n\nName: ${nameVal}\nMobile: ${mobileVal}\nEmail: ${emailVal || 'N/A'}\n\nDate: ${dateInput.value}\nTime: ${timeVal || 'N/A'}\nGuests: ${guestsInput.value}\n\nSpecial Request:\n${specialVal || 'None'}\n\nSent from CANOPPY Website`;
                     
                     const encodedMessage = encodeURIComponent(message);
                     const whatsappNumber = "917020916246";

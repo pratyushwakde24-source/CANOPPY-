@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /three_js.html
+Allow: /index.html
+Allow: /animated_luxury_experience.html
+Allow: /
