@@ -1,5 +1,7 @@
 User-agent: *
 Disallow: /three_js.html
+Disallow: /animated_luxury_experience.html
 Allow: /index.html
-Allow: /animated_luxury_experience.html
 Allow: /
+
+Sitemap: SITE_URL/sitemap.xml
