@@ -3,60 +3,204 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Canoppy Rooftop Restaurant | Chandrapur's Premier Rooftop Dining Experience</title>
-<meta name="description" content="Experience Canoppy Rooftop Restaurant in Chandrapur. Enjoy premium rooftop dining, signature cuisine, handcrafted beverages, sunset views, and unforgettable dining experiences." />
+<title>Canoppy Rooftop Restaurant | Best Rooftop Dining in Chandrapur</title>
+<meta name="description" content="Experience Canoppy Rooftop Restaurant in Chandrapur. Enjoy premium rooftop dining, signature cuisine, handcrafted beverages, sunset views, and unforgettable evenings." />
+<meta name="robots" content="index, follow" />
 <link rel="canonical" href="SITE_URL" />
 
-<!-- Google Search Console Verification -->
+<!-- Preconnect to external CDN and font resources to optimize performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+
+<!-- Search Console Verification -->
 <meta name="google-site-verification" content="YOUR_CODE_HERE" />
+<meta name="msvalidate.01" content="YOUR_BING_CODE_HERE" />
+
+<!-- Local SEO Metadata -->
+<meta name="geo.region" content="IN-MH" />
+<meta name="geo.placename" content="Chandrapur" />
+<meta name="geo.position" content="19.9613;79.2961" />
+<meta name="ICBM" content="19.9613, 79.2961" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="SITE_URL" />
-<meta property="og:title" content="Canoppy Rooftop Restaurant | Chandrapur" />
-<meta property="og:description" content="Experience Chandrapur's premier luxury rooftop dining, signature cuisine, handcrafted beverages, and sunset views." />
+<meta property="og:title" content="Canoppy Rooftop Restaurant | Best Rooftop Dining in Chandrapur" />
+<meta property="og:description" content="Experience Canoppy Rooftop Restaurant in Chandrapur. Enjoy premium rooftop dining, signature cuisine, handcrafted beverages, sunset views, and unforgettable evenings." />
 <meta property="og:image" content="SITE_URL/assets/images/canoppy-rooftop-seating.webp" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content="SITE_URL" />
-<meta name="twitter:title" content="Canoppy Rooftop Restaurant | Chandrapur" />
-<meta name="twitter:description" content="Experience Chandrapur's premier luxury rooftop dining, signature cuisine, and sunset views." />
+<meta name="twitter:title" content="Canoppy Rooftop Restaurant | Best Rooftop Dining in Chandrapur" />
+<meta name="twitter:description" content="Experience Canoppy Rooftop Restaurant in Chandrapur. Enjoy premium rooftop dining, signature cuisine, handcrafted beverages, sunset views, and unforgettable evenings." />
 <meta name="twitter:image" content="SITE_URL/assets/images/canoppy-rooftop-seating.webp" />
 
-<!-- Restaurant Structured Schema Data -->
+<!-- Structured Schema Data (Restaurant, Organization, WebPage, BreadcrumbList, FAQPage) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Restaurant",
-  "name": "Canoppy Rooftop Restaurant",
-  "image": "SITE_URL/assets/images/canoppy-rooftop-seating.webp",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Trends Building, Nagpur Road",
-    "addressLocality": "Chandrapur",
-    "addressRegion": "Maharashtra",
-    "postalCode": "442401",
-    "addressCountry": "IN"
-  },
-  "telephone": "+917020916246",
-  "url": "SITE_URL",
-  "servesCuisine": "Global, Indian",
-  "priceRange": "$$",
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ],
-    "opens": "18:00",
-    "closes": "23:30"
-  }
+  "@graph": [
+    {
+      "@type": "Restaurant",
+      "@id": "SITE_URL/#restaurant",
+      "name": "Canoppy Rooftop Restaurant",
+      "image": "SITE_URL/assets/images/canoppy-rooftop-seating.webp",
+      "url": "SITE_URL",
+      "telephone": "+917020916246",
+      "menu": "SITE_URL#menu",
+      "acceptsReservations": "True",
+      "servesCuisine": "Global, Indian, Continental, Tandoor",
+      "priceRange": "₹₹",
+      "description": "Experience Chandrapur's premier luxury rooftop dining. Enjoy premium global cuisine, signature handcrafted beverages, and stunning sunset views at Canoppy Rooftop Restaurant.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Trends Building, Nagpur Road",
+        "addressLocality": "Chandrapur",
+        "addressRegion": "Maharashtra",
+        "postalCode": "442401",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "19.9613",
+        "longitude": "79.2961"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "18:00",
+        "closes": "23:30"
+      },
+      "sameAs": [
+        "https://www.instagram.com/canoppytherooftop/",
+        "https://wa.me/917020916246"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "SITE_URL/#organization",
+      "name": "Canoppy Rooftop Restaurant",
+      "url": "SITE_URL",
+      "logo": "SITE_URL/assets/images/canoppy-rooftop-seating.webp",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+917020916246",
+        "contactType": "reservations"
+      },
+      "sameAs": [
+        "https://www.instagram.com/canoppytherooftop/",
+        "https://wa.me/917020916246"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "SITE_URL/#webpage",
+      "url": "SITE_URL",
+      "name": "Canoppy Rooftop Restaurant | Best Rooftop Dining in Chandrapur",
+      "description": "Experience Canoppy Rooftop Restaurant in Chandrapur. Enjoy premium rooftop dining, signature cuisine, handcrafted beverages, sunset views, and unforgettable evenings.",
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "SITE_URL/assets/images/canoppy-rooftop-seating.webp"
+      },
+      "publisher": {
+        "@id": "SITE_URL/#organization"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "SITE_URL/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "SITE_URL"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Menu",
+          "item": "SITE_URL#menu"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Gallery",
+          "item": "SITE_URL#gallery"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Reservations",
+          "item": "SITE_URL#reservation"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Location",
+          "item": "SITE_URL#location"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "SITE_URL/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the best rooftop restaurant in Chandrapur?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Canoppy Rooftop Restaurant is highly regarded as the best rooftop dining experience in Chandrapur, offering premium global cuisine, signature handcrafted beverages, and beautiful sunset views."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Canoppy Rooftop Restaurant accept reservations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Canoppy Rooftop Restaurant accepts reservations. You can book a table in advance through our online reservation form or by calling us directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What cuisines are available at Canoppy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Canoppy offers a diverse menu featuring Indian Starters, Tandoor Starters, Global Main Course, Rice & Biryani, Shakes, Mocktails, and Desserts with plenty of vegetarian options."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Canoppy suitable for family dining?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Canoppy offers a premium, welcoming atmosphere suitable for family dining, celebrations, and gatherings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Canoppy host private events?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Canoppy hosts private events and gatherings with special menus and customized rooftop setups."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -65,6 +209,7 @@
 <link rel="preload" as="image" href="assets/images/canoppy-rooftop-seating.webp"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
@@ -364,13 +509,13 @@
 <body class="font-body-md text-body-md selection:bg-primary selection:text-on-primary">
 <!-- Top Navigation -->
 <header id="top-header" class="fixed top-0 w-full bg-white/5 backdrop-blur-xl z-[10002] border-b border-white/10 flex justify-between items-center px-6 py-4 md:px-margin-desktop md:py-8 transition-all duration-500 opacity-0 pointer-events-none">
-<div class="font-display-md text-headline-lg-mobile md:text-display-md tracking-tighter text-primary">CANOPPY</div>
-<div class="hidden md:flex gap-8 items-center">
-<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none px-2 py-1 rounded transition-colors" href="#experience">Experience</a>
-<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none px-2 py-1 rounded transition-colors" href="#menu">Menu</a>
-<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none px-2 py-1 rounded transition-colors" href="#gallery">Gallery</a>
-<a class="bg-primary text-on-primary px-8 py-3 font-label-caps text-label-caps tracking-widest hover:brightness-110 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all inline-block text-center" href="#reservation">RESERVE</a>
-</div>
+<div class="font-display-md text-headline-lg-mobile md:text-display-md tracking-tighter text-primary" role="img" aria-label="Canoppy Logo">CANOPPY</div>
+<nav class="hidden md:flex gap-8 items-center" aria-label="Desktop Navigation">
+<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none px-2 py-1 rounded transition-colors" href="#experience" aria-label="Canoppy Rooftop Experience">Experience</a>
+<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none px-2 py-1 rounded transition-colors" href="#menu" aria-label="View our signature Menu">Menu</a>
+<a class="text-on-surface/80 font-body-md text-body-md hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none px-2 py-1 rounded transition-colors" href="#gallery" aria-label="View our Rooftop Atmosphere Gallery">Gallery</a>
+<a class="bg-primary text-on-primary px-8 py-3 font-label-caps text-label-caps tracking-widest hover:brightness-110 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all inline-block text-center" href="#reservation" aria-label="Book a table reservation">RESERVE</a>
+</nav>
 <button id="mobile-menu-btn" class="md:hidden text-primary p-3 relative z-[10001] pointer-events-auto flex items-center justify-center" aria-label="Toggle Mobile Menu" style="min-width: 48px; min-height: 48px;">
 <span class="material-symbols-outlined text-3xl pointer-events-none">menu</span>
 </button>
@@ -378,12 +523,12 @@
 
 <!-- Mobile Navigation Menu -->
 <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] opacity-0 pointer-events-none transition-opacity duration-300"></div>
-<nav id="mobile-menu-panel" class="fixed top-0 right-0 h-full w-[80vw] max-w-sm bg-surface-container-low border-l border-white/10 z-[10000] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col px-8 py-24 shadow-2xl">
+<nav id="mobile-menu-panel" class="fixed top-0 right-0 h-full w-[80vw] max-w-sm bg-surface-container-low border-l border-white/10 z-[10000] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col px-8 py-24 shadow-2xl" aria-label="Mobile Navigation">
     <div class="flex flex-col gap-8 text-center mt-12">
-        <a href="#experience" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none py-1 rounded transition-colors">Experience</a>
-        <a href="#menu" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none py-1 rounded transition-colors">Menu</a>
-        <a href="#gallery" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none py-1 rounded transition-colors">Gallery</a>
-        <a href="#reservation" class="mobile-nav-link bg-primary text-on-primary px-8 py-4 mt-8 font-label-caps text-label-caps tracking-widest rounded-sm focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all">RESERVE</a>
+        <a href="#experience" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none py-1 rounded transition-colors" aria-label="Canoppy Rooftop Experience">Experience</a>
+        <a href="#menu" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none py-1 rounded transition-colors" aria-label="View our signature Menu">Menu</a>
+        <a href="#gallery" class="mobile-nav-link text-on-surface font-display-md text-2xl tracking-wide hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none py-1 rounded transition-colors" aria-label="View our Rooftop Atmosphere Gallery">Gallery</a>
+        <a href="#reservation" class="mobile-nav-link bg-primary text-on-primary px-8 py-4 mt-8 font-label-caps text-label-caps tracking-widest rounded-sm focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all" aria-label="Book a table reservation">RESERVE</a>
     </div>
 </nav>
 <!-- Hero Section (400vh scroll track) -->
@@ -541,7 +686,7 @@
 <!-- Card 1 -->
 <div class="min-w-[85vw] md:min-w-[450px] snap-center glass-panel p-8 group transition-all duration-700 hover:-translate-y-4">
 <div class="aspect-[4/5] overflow-hidden mb-8 relative">
-<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A luxurious rooftop restaurant terrace at sunset with soft golden ambient lighting, modern minimalist furniture, and a stunning panoramic city view. Deep blacks and warm gold tones dominate the cinematic atmosphere, highlighting the elegant table settings and crystal glassware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyrNSzCFMtZBbDnwyA2doDxpLlZLq5Ok-2GkoTy2oXAb3u6CsUT9fPYtOf8LDngU9ikDHcRT9h1AwHIOCBY-d-jbZMazmk-z6xUkGvFAxr9_FbVE5Q4H3y76xx4sJ5n7faoYLl-IMiv2HvfcIyHZzBJ7p6XwhTQc9NBr3rFaXnQ6PtTatSlCVDPWEExy2ITlhszYBx8BLsmXB7DT_0Ad3XMzSr2wJV5XksGU4WzjPLwkVHoLRyF4bGfeGno4Hf21Pvd_bcR5HKrVc"/>
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A luxurious rooftop restaurant terrace at sunset with soft golden ambient lighting, modern minimalist furniture, and a stunning panoramic city view. Deep blacks and warm gold tones dominate the cinematic atmosphere, highlighting the elegant table settings and crystal glassware." alt="A luxurious rooftop restaurant terrace at sunset with soft golden ambient lighting, modern minimalist furniture, and a stunning panoramic city view. Deep blacks and warm gold tones dominate the cinematic atmosphere, highlighting the elegant table settings and crystal glassware." width="800" height="1000" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyrNSzCFMtZBbDnwyA2doDxpLlZLq5Ok-2GkoTy2oXAb3u6CsUT9fPYtOf8LDngU9ikDHcRT9h1AwHIOCBY-d-jbZMazmk-z6xUkGvFAxr9_FbVE5Q4H3y76xx4sJ5n7faoYLl-IMiv2HvfcIyHZzBJ7p6XwhTQc9NBr3rFaXnQ6PtTatSlCVDPWEExy2ITlhszYBx8BLsmXB7DT_0Ad3XMzSr2wJV5XksGU4WzjPLwkVHoLRyF4bGfeGno4Hf21Pvd_bcR5HKrVc"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 </div>
 <h3 class="font-display-md text-2xl mb-4">Golden Hour</h3>
@@ -550,7 +695,7 @@
 <!-- Card 2 -->
 <div class="min-w-[85vw] md:min-w-[450px] snap-center glass-panel p-8 group transition-all duration-700 hover:-translate-y-4">
 <div class="aspect-[4/5] overflow-hidden mb-8 relative">
-<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Close-up of a sophisticated signature cocktail served in a fine crystal glass with a minimalist garnish, set against a dark, moody background of a luxury rooftop bar. Golden light reflections glint off the liquid surface, evoking an ultra-premium nightlife feel with deep shadows and warm highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAll5nxOnakEzRM_LltqvFCSylPmK6PHsdiO2lvrG2ivf7-3JLgKpjuw-BKaC7cukTYiSWlS6QMW0EYv7dE7W1X3nijaNjUI2_z0KHa5Q-5Mi1JQt7jqkLqb3_Dgf8crWn-HIbWuks0BA7NWaSkDrRAButkgZLLhMzUCdebDEmSU-t-rNcJwqFrFarh18jXPAGTQapmYLe-suvWPI_xpHp0FAaQCIlUzAyOCMAvp_glX3H_OL2IK14QvZ2rpDiKEYixmSCrtS9Ku-A"/>
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Close-up of a sophisticated signature cocktail served in a fine crystal glass with a minimalist garnish, set against a dark, moody background of a luxury rooftop bar. Golden light reflections glint off the liquid surface, evoking an ultra-premium nightlife feel with deep shadows and warm highlights." alt="Close-up of a sophisticated signature cocktail served in a fine crystal glass with a minimalist garnish, set against a dark, moody background of a luxury rooftop bar. Golden light reflections glint off the liquid surface, evoking an ultra-premium nightlife feel with deep shadows and warm highlights." width="800" height="1000" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAll5nxOnakEzRM_LltqvFCSylPmK6PHsdiO2lvrG2ivf7-3JLgKpjuw-BKaC7cukTYiSWlS6QMW0EYv7dE7W1X3nijaNjUI2_z0KHa5Q-5Mi1JQt7jqkLqb3_Dgf8crWn-HIbWuks0BA7NWaSkDrRAButkgZLLhMzUCdebDEmSU-t-rNcJwqFrFarh18jXPAGTQapmYLe-suvWPI_xpHp0FAaQCIlUzAyOCMAvp_glX3H_OL2IK14QvZ2rpDiKEYixmSCrtS9Ku-A"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 </div>
 <h3 class="font-display-md text-2xl mb-4">Artisanal Spirits</h3>
@@ -559,7 +704,7 @@
 <!-- Card 3 -->
 <div class="min-w-[85vw] md:min-w-[450px] snap-center glass-panel p-8 group transition-all duration-700 hover:-translate-y-4">
 <div class="aspect-[4/5] overflow-hidden mb-8 relative">
-<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Exquisite fine dining plate featuring a gourmet culinary creation with vibrant colors, textures, and artistic plating. The dish is softly lit by warm spot lighting against a dark charcoal table setting, emphasizing the luxury and exclusivity of the dining experience in a premium rooftop restaurant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWPcXoayv3btzhuGbFE1E0l8nIJUdVB2f_2bOCo_lLEU2oD5oLrW2XSu4IsgyQjJrZcvILyyfAt8WJZxJe5nCsz-sT9NSBvZckLEna7qMyc_RwCNjxxzrCCAj7zLoLpD0WxDt-fe3w95JCJbSPe7Bf_zu7RzvS7dA83N-aGItdlebctVdJ5js1IKOEj_kPpJc2iy4_OdY4kORJmRDjwlRk1a85FWI7l1qAQ9aIv-U0rba3F_MKpp0HZGQJXMjDAlnsgX0VpGASQrs"/>
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="Exquisite fine dining plate featuring a gourmet culinary creation with vibrant colors, textures, and artistic plating. The dish is softly lit by warm spot lighting against a dark charcoal table setting, emphasizing the luxury and exclusivity of the dining experience in a premium rooftop restaurant." alt="Exquisite fine dining plate featuring a gourmet culinary creation with vibrant colors, textures, and artistic plating. The dish is softly lit by warm spot lighting against a dark charcoal table setting, emphasizing the luxury and exclusivity of the dining experience in a premium rooftop restaurant." width="800" height="1000" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWPcXoayv3btzhuGbFE1E0l8nIJUdVB2f_2bOCo_lLEU2oD5oLrW2XSu4IsgyQjJrZcvILyyfAt8WJZxJe5nCsz-sT9NSBvZckLEna7qMyc_RwCNjxxzrCCAj7zLoLpD0WxDt-fe3w95JCJbSPe7Bf_zu7RzvS7dA83N-aGItdlebctVdJ5js1IKOEj_kPpJc2iy4_OdY4kORJmRDjwlRk1a85FWI7l1qAQ9aIv-U0rba3F_MKpp0HZGQJXMjDAlnsgX0VpGASQrs"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 </div>
 <h3 class="font-display-md text-2xl mb-4">Culinary Zenith</h3>
@@ -585,28 +730,28 @@
             <!-- Search bar -->
             <div class="relative w-full md:max-w-md">
                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface/40">search</span>
-                <input type="text" id="menu-search-input" placeholder="Search our celestial dishes..." class="w-full bg-white/5 border border-white/10 rounded pl-12 pr-6 py-4 text-on-surface placeholder:text-on-surface/30 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-md glass-panel" />
+                <input type="text" id="menu-search-input" placeholder="Search our celestial dishes..." aria-label="Search menu items" class="w-full bg-white/5 border border-white/10 rounded pl-12 pr-6 py-4 text-on-surface placeholder:text-on-surface/30 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all font-body-md glass-panel" />
             </div>
             
-            // Quick Veg filter button
+            <!-- Quick Veg filter button -->
             <div class="flex gap-4 w-full md:w-auto justify-end">
-                <button id="filter-all-btn" class="px-6 py-3 font-label-caps text-[10px] tracking-widest bg-primary text-on-primary rounded hover:brightness-110 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all">ALL ITEMS</button>
-                <button id="filter-veg-btn" class="px-6 py-3 font-label-caps text-[10px] tracking-widest border border-primary/20 text-primary rounded hover:bg-primary/5 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all flex items-center gap-2">
+                <button id="filter-all-btn" aria-label="Show all menu items" class="px-6 py-3 font-label-caps text-[10px] tracking-widest bg-primary text-on-primary rounded hover:brightness-110 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all">ALL ITEMS</button>
+                <button id="filter-veg-btn" aria-label="Filter to show vegetarian items only" class="px-6 py-3 font-label-caps text-[10px] tracking-widest border border-primary/20 text-primary rounded hover:bg-primary/5 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all flex items-center gap-2">
                     <span class="w-2 h-2 bg-green-500 rounded-full inline-block"></span> VEG ONLY
                 </button>
             </div>
         </div>
 
         <!-- Sticky Category Navigation Tab Bar -->
-        <div id="menu-category-tabs" class="sticky top-[70px] md:top-[90px] z-40 bg-[#131313]/95 backdrop-blur-md border-y border-outline-variant/20 py-4 mb-16 overflow-x-auto no-scrollbar flex gap-8 md:justify-center whitespace-nowrap px-4 -mx-margin-mobile md:mx-0">
-            <a href="#indian-starters" class="menu-tab text-primary border-b-2 border-primary pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Indian Starters</a>
-            <a href="#tandoor-starters" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Tandoor Starters</a>
-            <a href="#main-course" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Main Course</a>
-            <a href="#rice-biryani" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Rice & Biryani</a>
-            <a href="#mocktails" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Mocktails</a>
-            <a href="#shakes" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Shakes</a>
-            <a href="#soups" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Soups</a>
-            <a href="#desserts" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors">Desserts</a>
+        <div id="menu-category-tabs" class="sticky top-[70px] md:top-[90px] z-40 bg-[#131313]/95 backdrop-blur-md border-y border-outline-variant/20 py-4 mb-16 overflow-x-auto no-scrollbar flex gap-8 md:justify-center whitespace-nowrap px-4 -mx-margin-mobile md:mx-0" role="tablist" aria-label="Menu Categories">
+            <a href="#indian-starters" class="menu-tab text-primary border-b-2 border-primary pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="true" aria-label="Filter menu by Indian Starters">Indian Starters</a>
+            <a href="#tandoor-starters" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Tandoor Starters">Tandoor Starters</a>
+            <a href="#main-course" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Main Course">Main Course</a>
+            <a href="#rice-biryani" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Rice and Biryani">Rice & Biryani</a>
+            <a href="#mocktails" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Mocktails">Mocktails</a>
+            <a href="#shakes" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Shakes">Shakes</a>
+            <a href="#soups" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Soups">Soups</a>
+            <a href="#desserts" class="menu-tab text-on-surface/60 border-b-2 border-transparent pb-1 font-label-caps text-[10px] tracking-widest uppercase hover:text-primary focus:ring-2 focus:ring-primary focus:outline-none rounded px-2 transition-colors" role="tab" aria-selected="false" aria-label="Filter menu by Desserts">Desserts</a>
         </div>
 
         <!-- Menu Sub-sections -->
@@ -1334,7 +1479,7 @@
 </div>
 </div>
 <div class="reveal-up glass-panel p-2 relative">
-<img class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000" data-alt="A wide-angle cinematic shot of a luxury rooftop lounge during twilight. The sky is a deep mix of sunset orange and indigo, reflecting on the glass surfaces and sleek furniture. The mood is sophisticated and peaceful, with warm golden interior lighting spilling onto the open-air deck." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFvwB5-iIAFXdAvKElNs3r4pnm_tMIgG6WI8JOC6h8-E82TTXJYmcc_FRW3r2veiM1qAui1rHFQYtekuUxqXbkpo9uGa6Zb2EL1S6x6sl2BKR6hFnkiAJUCotj4OX6WdXkSP1sAVOBzpzvg321_YVIOROnMpZMVl6ReWo1j98BdikmYbAM-vKtB_paAYKrpc4WGl6sVhRfgtebpgIxYLxDhJ7CM6S0g5bx350djMxFwXRprsVKgRf4LovQXMyn54rtkKPoRuBaWI4"/>
+<img class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000" data-alt="A wide-angle cinematic shot of a luxury rooftop lounge during twilight. The sky is a deep mix of sunset orange and indigo, reflecting on the glass surfaces and sleek furniture. The mood is sophisticated and peaceful, with warm golden interior lighting spilling onto the open-air deck." alt="A wide-angle cinematic shot of a luxury rooftop lounge during twilight. The sky is a deep mix of sunset orange and indigo, reflecting on the glass surfaces and sleek furniture. The mood is sophisticated and peaceful, with warm golden interior lighting spilling onto the open-air deck." width="800" height="500" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFvwB5-iIAFXdAvKElNs3r4pnm_tMIgG6WI8JOC6h8-E82TTXJYmcc_FRW3r2veiM1qAui1rHFQYtekuUxqXbkpo9uGa6Zb2EL1S6x6sl2BKR6hFnkiAJUCotj4OX6WdXkSP1sAVOBzpzvg321_YVIOROnMpZMVl6ReWo1j98BdikmYbAM-vKtB_paAYKrpc4WGl6sVhRfgtebpgIxYLxDhJ7CM6S0g5bx350djMxFwXRprsVKgRf4LovQXMyn54rtkKPoRuBaWI4"/>
 </div>
 </div>
 </section>
@@ -1346,16 +1491,16 @@
 </div>
 <div class="px-margin-mobile md:px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[250px]">
 <div class="reveal-up col-span-2 row-span-2 overflow-hidden group relative">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="A vibrant shot of guests enjoying a premium rooftop dining experience at night. The table is filled with gourmet food and glowing drinks, with the city lights of Chandrapur providing a glittering bokeh background. The scene captures joy, luxury, and high-end social interaction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFhAD8wyVRW0RUfG3tBiuXGPlVVJRQ6OuheoPQRAcXPg-wa_E59DxmbTZxib_U3ZgC0QgcbuTH7AxUOhozwvpWUHV1b4JR1TAKnixYehGgfoiaKZPLcRrvdAM7hm2bvXX18xOO-3s12nH3sjJ8rKYMrqGHA0eTySSblBwEi4MUvDaV3Mjxy5KM776ZT2i-ArIRg6TroTVS2xJ6owzhoPV0HWfBtIQKmNLdMRvekjtxkKikvSMmn1stg7fjg43emBkAzjqhonxUPJk"/>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="A vibrant shot of guests enjoying a premium rooftop dining experience at night. The table is filled with gourmet food and glowing drinks, with the city lights of Chandrapur providing a glittering bokeh background. The scene captures joy, luxury, and high-end social interaction." alt="A vibrant shot of guests enjoying a premium rooftop dining experience at night. The table is filled with gourmet food and glowing drinks, with the city lights of Chandrapur providing a glittering bokeh background. The scene captures joy, luxury, and high-end social interaction." width="800" height="600" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFhAD8wyVRW0RUfG3tBiuXGPlVVJRQ6OuheoPQRAcXPg-wa_E59DxmbTZxib_U3ZgC0QgcbuTH7AxUOhozwvpWUHV1b4JR1TAKnixYehGgfoiaKZPLcRrvdAM7hm2bvXX18xOO-3s12nH3sjJ8rKYMrqGHA0eTySSblBwEi4MUvDaV3Mjxy5KM776ZT2i-ArIRg6TroTVS2xJ6owzhoPV0HWfBtIQKmNLdMRvekjtxkKikvSMmn1stg7fjg43emBkAzjqhonxUPJk"/>
 </div>
 <div class="reveal-up overflow-hidden group relative">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="Close-up of an elegant dessert with gold leaf detailing, presented on a dark ceramic plate in a high-end rooftop restaurant. The lighting is low and focused, creating dramatic shadows and highlighting the intricate textures of the food, consistent with the cinematic luxury theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK5Z-SJ9QvZ4SHCYeUA2xvBVmiYMHZM-_qicgehJgNa4FZEyz2_BQoybdbDizKxLaqtxny3lxfs5MZS6HEg5k4rZkfyRn00o_0ouSIbJKrC1s7PWyU6bTYrE1bFDDWsijZpN6nPPjuLlK3t4gP1Ygm4rL8Eh27UzGMMFrMO2mpwtjUSdLcrtAgrfdrme4K0-TGTnJ8umpUgyhPpMunNZ_8TC3nTh94_n-XLF2AsGf3Ds3se3c0evzoDX1LF-FCC3g-oII1MaA8ls8"/>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="Close-up of an elegant dessert with gold leaf detailing, presented on a dark ceramic plate in a high-end rooftop restaurant. The lighting is low and focused, creating dramatic shadows and highlighting the intricate textures of the food, consistent with the cinematic luxury theme." alt="Close-up of an elegant dessert with gold leaf detailing, presented on a dark ceramic plate in a high-end rooftop restaurant. The lighting is low and focused, creating dramatic shadows and highlighting the intricate textures of the food, consistent with the cinematic luxury theme." width="400" height="250" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK5Z-SJ9QvZ4SHCYeUA2xvBVmiYMHZM-_qicgehJgNa4FZEyz2_BQoybdbDizKxLaqtxny3lxfs5MZS6HEg5k4rZkfyRn00o_0ouSIbJKrC1s7PWyU6bTYrE1bFDDWsijZpN6nPPjuLlK3t4gP1Ygm4rL8Eh27UzGMMFrMO2mpwtjUSdLcrtAgrfdrme4K0-TGTnJ8umpUgyhPpMunNZ_8TC3nTh94_n-XLF2AsGf3Ds3se3c0evzoDX1LF-FCC3g-oII1MaA8ls8"/>
 </div>
 <div class="reveal-up row-span-2 overflow-hidden group relative">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="Perspective view of a long, sleek bar counter in a luxury rooftop establishment. The bar is stocked with premium bottles under warm gold LED lighting, reflecting off polished dark surfaces. The design is modern, minimalist, and exudes an air of exclusive sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7D7cp6aVn5iij7G-SD4SaqZ-z42qGLY2UL0m0OLGpFk7bsICguMUEFdeKnNZboYSj7692EfjQmL-nBARMfqNfPPROenYZmEJa-zNwPhsIYqf7kBQ2LbxIiv9eWSyOJicE0Ix3ZRonmPML4FzzqYEGaSb3u1ucLIRRrPc_JSkSJKL8a75bBhCdzUlLTLrnb3Omrw29qzTPU5A1uX1If0BiHcI2yc0fjWVC7uaZg0m9ajjHHuGDdSQKqSUcUNhMa37fnbfxpECXhBA"/>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="Perspective view of a long, sleek bar counter in a luxury rooftop establishment. The bar is stocked with premium bottles under warm gold LED lighting, reflecting off polished dark surfaces. The design is modern, minimalist, and exudes an air of exclusive sophistication." alt="Perspective view of a long, sleek bar counter in a luxury rooftop establishment. The bar is stocked with premium bottles under warm gold LED lighting, reflecting off polished dark surfaces. The design is modern, minimalist, and exudes an air of exclusive sophistication." width="400" height="500" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7D7cp6aVn5iij7G-SD4SaqZ-z42qGLY2UL0m0OLGpFk7bsICguMUEFdeKnNZboYSj7692EfjQmL-nBARMfqNfPPROenYZmEJa-zNwPhsIYqf7kBQ2LbxIiv9eWSyOJicE0Ix3ZRonmPML4FzzqYEGaSb3u1ucLIRRrPc_JSkSJKL8a75bBhCdzUlLTLrnb3Omrw29qzTPU5A1uX1If0BiHcI2yc0fjWVC7uaZg0m9ajjHHuGDdSQKqSUcUNhMa37fnbfxpECXhBA"/>
 </div>
 <div class="reveal-up overflow-hidden group relative">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="An atmospheric shot of a single candle on an outdoor rooftop table at night, with the blurred city lights in the distance. The warm flame creates a soft glow on the glass tabletop, emphasizing the romantic and intimate cinematic vibe of the restaurant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9TILL8ccxiZxJnxOunKNOTmgkZl38B0uO52hAH9IzoKfDcUymuiYEOKodk3Lt2mglCoGD1Gto3vSoimdo76F_e821xjDspnZXW6rXzBccUA5L6EsLsXuiFKg-T5uJ62Y-H3q5NoNizL2oFPzjoscCTRyLzA4CcPrR-Q58M6d1RG8qkzm75jXBEBKlF5qiH7utzVBiYp9JW8dDk1-JLVwp-2Z0xbSCtN5d9NXaDOfacDbLs189juHNwLz4DDVd8GzVnY70N4Stbzs"/>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 cursor-zoom-in" data-alt="An atmospheric shot of a single candle on an outdoor rooftop table at night, with the blurred city lights in the distance. The warm flame creates a soft glow on the glass tabletop, emphasizing the romantic and intimate cinematic vibe of the restaurant." alt="An atmospheric shot of a single candle on an outdoor rooftop table at night, with the blurred city lights in the distance. The warm flame creates a soft glow on the glass tabletop, emphasizing the romantic and intimate cinematic vibe of the restaurant." width="400" height="250" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9TILL8ccxiZxJnxOunKNOTmgkZl38B0uO52hAH9IzoKfDcUymuiYEOKodk3Lt2mglCoGD1Gto3vSoimdo76F_e821xjDspnZXW6rXzBccUA5L6EsLsXuiFKg-T5uJ62Y-H3q5NoNizL2oFPzjoscCTRyLzA4CcPrR-Q58M6d1RG8qkzm75jXBEBKlF5qiH7utzVBiYp9JW8dDk1-JLVwp-2Z0xbSCtN5d9NXaDOfacDbLs189juHNwLz4DDVd8GzVnY70N4Stbzs"/>
 </div>
 </div>
 </section>
@@ -1376,26 +1521,26 @@
 </div>
 <div class="grid md:grid-cols-2 gap-8">
 <div class="relative group">
-<input id="res-name" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Your Name" type="text"/>
+<input id="res-name" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Your Name" type="text" aria-label="Your Name" required aria-required="true"/>
 <div id="err-name" class="text-error text-xs hidden absolute -bottom-5">Name is required</div>
 </div>
 <div class="relative group">
-<input id="res-mobile" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Mobile Number" type="tel"/>
+<input id="res-mobile" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Mobile Number" type="tel" aria-label="Mobile Number" required aria-required="true"/>
 <div id="err-mobile" class="text-error text-xs hidden absolute -bottom-5">Valid mobile number is required</div>
 </div>
 <div class="relative group">
-<input id="res-email" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Email Address" type="email"/>
+<input id="res-email" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Email Address" type="email" aria-label="Email Address (Optional)"/>
 <div id="err-email" class="text-error text-xs hidden absolute -bottom-5">Valid email address is required</div>
 </div>
 <div class="relative group">
-<input id="res-date" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all text-on-surface/30 font-body-md" type="date"/>
+<input id="res-date" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all text-on-surface/30 font-body-md" type="date" aria-label="Reservation Date" required aria-required="true"/>
 <div id="err-date" class="text-error text-xs hidden absolute -bottom-5">Date is required</div>
 </div>
 <div class="relative group">
-<input id="res-time" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all text-on-surface/30 font-body-md" type="time"/>
+<input id="res-time" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all text-on-surface/30 font-body-md" type="time" aria-label="Reservation Time (Optional)"/>
 </div>
 <div class="relative group">
-<select id="res-guests" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all text-on-surface/30 font-body-md">
+<select id="res-guests" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all text-on-surface/30 font-body-md" aria-label="Number of Guests" required aria-required="true">
 <option value="" disabled selected hidden>Number of Guests</option>
 <option value="1">1 Guest</option>
 <option value="2">2 Guests</option>
@@ -1407,50 +1552,59 @@
 <div id="err-guests" class="text-error text-xs hidden absolute -bottom-5">Guest count is required</div>
 </div>
 <div class="relative group md:col-span-2">
-<input id="res-special" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Any Special Requests? (Optional)" type="text"/>
+<input id="res-special" class="w-full bg-transparent border-b border-outline-variant py-4 px-0 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition-all placeholder:text-on-surface/30 font-body-md" placeholder="Any Special Requests? (Optional)" type="text" aria-label="Special Requests (Optional)"/>
 </div>
 </div>
 <div id="res-success" class="text-primary font-body-md text-center hidden">Redirecting to WhatsApp to complete your reservation...</div>
-<button class="w-full bg-primary text-on-primary py-6 font-label-caps text-label-caps tracking-[0.5em] hover:brightness-110 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all shadow-lg shadow-primary/10" type="submit">CONFIRM RESERVATION</button>
+<button class="w-full bg-primary text-on-primary py-6 font-label-caps text-label-caps tracking-[0.5em] hover:brightness-110 focus:ring-2 focus:ring-primary focus:outline-none active:scale-95 transition-all shadow-lg shadow-primary/10" type="submit" aria-label="Confirm table reservation and open WhatsApp">CONFIRM RESERVATION</button>
 </form>
 </div>
 </div>
 </section>
 <!-- Footer -->
-<footer class="bg-surface-container-lowest border-t border-outline-variant/30 pt-section-gap pb-12">
+<footer id="location" class="bg-surface-container-lowest border-t border-outline-variant/30 pt-section-gap pb-12" aria-label="Footer and Location Information">
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
 <div class="flex flex-col md:flex-row justify-between items-start gap-16 mb-24">
 <div class="max-w-sm">
-<a href="#" class="font-display-lg text-headline-lg text-primary uppercase tracking-widest mb-8 block hover:opacity-80 transition-opacity cursor-pointer">CANOPPY</a>
+<a href="#" class="font-display-lg text-headline-lg text-primary uppercase tracking-widest mb-8 block hover:opacity-80 transition-opacity cursor-pointer" aria-label="Canoppy Rooftop Restaurant Home">CANOPPY</a>
 <p class="text-tertiary font-body-md leading-relaxed opacity-70 mb-8">
                         Trends Building, Nagpur Road, Chandrapur. <br/>
                         Nagpur's signature rooftop destination for global cuisine and celestial cocktails.
                     </p>
 <div class="flex gap-6">
-<a class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all cursor-pointer" href="https://www.instagram.com/canoppytherooftop/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+<a id="footer-scroll-top-btn" class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all cursor-pointer" href="#" aria-label="Scroll to top of page">
 <span class="material-symbols-outlined text-xl">camera</span>
 </a>
-<a class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all cursor-pointer" href="https://wa.me/917020916246" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+<a id="footer-share-btn" class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all cursor-pointer" href="#" aria-label="Share website">
 <span class="material-symbols-outlined text-xl">share</span>
 </a>
 </div>
 </div>
 <div class="grid grid-cols-2 gap-20">
 <div>
-<h5 class="font-label-caps text-label-caps tracking-widest text-primary mb-8">NAVIGATE</h5>
+<h3 class="font-label-caps text-label-caps tracking-widest text-primary mb-8">NAVIGATE</h3>
 <ul class="space-y-4">
-<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#menu">The Menu</a></li>
-<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#gallery">Gallery</a></li>
-<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#reservation">Private Events</a></li>
-<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#location">Location</a></li>
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#menu" aria-label="Go to Menu section">The Menu</a></li>
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#gallery" aria-label="Go to Gallery section">Gallery</a></li>
+<li><a class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer smooth-scroll-link" href="#reservation" aria-label="Book a table reservation">Private Events</a></li>
+<li><a id="footer-location-btn" class="text-tertiary hover:text-primary transition-colors font-body-md cursor-pointer" href="https://www.google.com/maps/search/?api=1&query=Canoppy+The+Rooftop+Restaurant+Chandrapur" target="_blank" rel="noopener noreferrer" aria-label="Open Canoppy Rooftop Restaurant location on Google Maps">Location</a></li>
 </ul>
 </div>
 <div>
-<h5 class="font-label-caps text-label-caps tracking-widest text-primary mb-8">CONTACT</h5>
+<h3 class="font-label-caps text-label-caps tracking-widest text-primary mb-8">CONTACT</h3>
 <ul class="space-y-4 font-body-md text-tertiary">
-<li><a href="tel:7020916246" class="hover:text-primary transition-colors cursor-pointer">7020916246</a></li>
-<li><a href="tel:7709112398" class="hover:text-primary transition-colors cursor-pointer">7709112398</a></li>
-<li><a href="https://www.instagram.com/canoppytherooftop/" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors cursor-pointer">@canoppytherooftop</a></li>
+<li><a href="tel:7020916246" class="hover:text-primary transition-colors cursor-pointer" aria-label="Call Canoppy at 7020916246">7020916246</a></li>
+<li><a href="tel:7709112398" class="hover:text-primary transition-colors cursor-pointer" aria-label="Call Canoppy at 7709112398">7709112398</a></li>
+<li>
+    <a href="https://www.instagram.com/canoppytherooftop/" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       aria-label="Visit Canoppy Rooftop Instagram Page"
+       class="inline-flex items-center justify-center text-primary transition-all duration-300 transform hover:scale-110 hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] focus:ring-2 focus:ring-primary focus:outline-none rounded cursor-pointer"
+       style="min-width: 44px; min-height: 44px;">
+        <i class="bi bi-instagram text-[28px] md:text-[34px]"></i>
+    </a>
+</li>
 </ul>
 </div>
 </div>
@@ -3070,6 +3224,99 @@
                             lenis.scrollTo(targetId);
                         }
                     });
+                });
+            }
+
+            // Scroll to top button in footer (left icon next to share)
+            const scrollTopBtn = document.getElementById('footer-scroll-top-btn');
+            if (scrollTopBtn) {
+                scrollTopBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Location button logic
+            const locationBtn = document.getElementById('footer-location-btn');
+            if (locationBtn) {
+                locationBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.open("https://www.google.com/maps/search/?api=1&query=Canoppy+The+Rooftop+Restaurant+Chandrapur", "_blank");
+                });
+            }
+
+            // Toast helper
+            function showToast(message) {
+                let toast = document.getElementById('seo-toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'seo-toast';
+                    toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-neutral-900 text-primary border border-primary/20 px-6 py-3 rounded shadow-2xl z-[10005] opacity-0 transition-opacity duration-300 pointer-events-none font-body-md text-sm tracking-wide';
+                    document.body.appendChild(toast);
+                }
+                toast.textContent = message;
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+                
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 2500);
+            }
+
+            // Share button logic
+            const shareBtn = document.getElementById('footer-share-btn');
+            if (shareBtn) {
+                shareBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const shareData = {
+                        title: 'Canoppy Rooftop Restaurant',
+                        text: "Experience Chandrapur's premier rooftop dining destination.",
+                        url: 'https://canoppy.vercel.app/'
+                    };
+                    
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    if (isMobile && navigator.share) {
+                        try {
+                            await navigator.share(shareData);
+                            return;
+                        } catch (err) {
+                            console.log("Share failed, copying to clipboard:", err);
+                        }
+                    }
+                    
+                    // Fallback to Clipboard Copy
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(shareData.url);
+                        } else {
+                            // Traditional fallback for non-secure contexts
+                            const tempInput = document.createElement("input");
+                            tempInput.value = shareData.url;
+                            document.body.appendChild(tempInput);
+                            tempInput.select();
+                            document.execCommand("copy");
+                            document.body.removeChild(tempInput);
+                        }
+                        showToast("Website link copied");
+                    } catch (err) {
+                        console.error("Clipboard copy failed:", err);
+                        // Even if it fails, try the traditional way
+                        try {
+                            const tempInput = document.createElement("input");
+                            tempInput.value = shareData.url;
+                            document.body.appendChild(tempInput);
+                            tempInput.select();
+                            document.execCommand("copy");
+                            document.body.removeChild(tempInput);
+                            showToast("Website link copied");
+                        } catch (fallbackErr) {
+                            console.error("Fallback clipboard copy also failed:", fallbackErr);
+                        }
+                    }
                 });
             }
         });
