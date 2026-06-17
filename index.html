@@ -504,9 +504,110 @@
     body {
       min-height: max(884px, 100dvh);
     }
+
+    /* ---- Premium Loading Screen ---- */
+    #canoppy-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        transition: opacity 0.8s ease-out;
+        will-change: opacity;
+        overflow: hidden;
+    }
+    #canoppy-loader.fade-out {
+        opacity: 0;
+        pointer-events: none;
+    }
+    #loader-stars {
+        position: absolute;
+        inset: 0;
+        background-image:
+            radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+            radial-gradient(1px 1px at 72% 8%,  rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 38% 65%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 85% 42%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 28% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+            radial-gradient(1px 1px at 92% 75%, rgba(255,255,255,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 10% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1px 1px at 65% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 48% 12%, rgba(242,202,80,0.6) 0%, transparent 100%),
+            radial-gradient(1px 1px at 78% 58%, rgba(255,255,255,0.3) 0%, transparent 100%),
+            radial-gradient(1px 1px at 22% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1px 1px at 5%  85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+            radial-gradient(1px 1px at 95% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+            radial-gradient(1.5px 1.5px at 33% 48%, rgba(242,202,80,0.4) 0%, transparent 100%);
+        pointer-events: none;
+    }
+    #loader-brand {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        color: #f2ca50;
+        text-shadow: 0 0 40px rgba(242,202,80,0.35), 0 0 80px rgba(242,202,80,0.12);
+        margin-bottom: 1.2rem;
+        animation: loaderPulse 2.8s ease-in-out infinite;
+    }
+    @keyframes loaderPulse {
+        0%, 100% { opacity: 0.9; text-shadow: 0 0 40px rgba(242,202,80,0.35), 0 0 80px rgba(242,202,80,0.12); }
+        50%       { opacity: 1.0; text-shadow: 0 0 55px rgba(242,202,80,0.55), 0 0 120px rgba(242,202,80,0.2); }
+    }
+    #loader-tagline {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(0.6rem, 2vw, 0.75rem);
+        letter-spacing: 0.45em;
+        color: rgba(255,255,255,0.45);
+        text-transform: uppercase;
+        margin-bottom: 2.8rem;
+    }
+    #loader-bar-track {
+        width: clamp(180px, 40vw, 320px);
+        height: 2px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+    }
+    #loader-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #a07c20, #f2ca50, #ffe49a, #f2ca50);
+        background-size: 200% 100%;
+        border-radius: 2px;
+        transition: width 0.3s ease-out;
+        animation: loaderShimmer 1.8s linear infinite;
+    }
+    @keyframes loaderShimmer {
+        0%   { background-position: 200% center; }
+        100% { background-position: -200% center; }
+    }
+    #loader-pct {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        color: rgba(242,202,80,0.5);
+        margin-top: 1rem;
+    }
   </style>
 </head>
 <body class="font-body-md text-body-md selection:bg-primary selection:text-on-primary">
+<!-- Premium Loading Screen -->
+<div id="canoppy-loader" role="status" aria-label="Loading Canoppy Rooftop experience">
+    <div id="loader-stars" aria-hidden="true"></div>
+    <div id="loader-brand" aria-hidden="true">CANOPPY</div>
+    <div id="loader-tagline">Preparing Your Journey</div>
+    <div id="loader-bar-track">
+        <div id="loader-bar-fill"></div>
+    </div>
+    <div id="loader-pct">0%</div>
+</div>
 <!-- Top Navigation -->
 <header id="top-header" class="fixed top-0 w-full bg-white/5 backdrop-blur-xl z-[10002] border-b border-white/10 flex justify-between items-center px-6 py-4 md:px-margin-desktop md:py-8 transition-all duration-500 opacity-0 pointer-events-none">
 <div class="font-display-md text-headline-lg-mobile md:text-display-md tracking-tighter text-primary" role="img" aria-label="Canoppy Logo">CANOPPY</div>
@@ -2118,23 +2219,69 @@
                 cloudsGroup.add(cloudSprite);
             }
 
-            // Asynchronous High-Res Texture Loading (using local assets to prevent CSP block issues)
+            // ── Texture Preload Gate ──────────────────────────────────────────────
+            // All 3 earth textures must be fully loaded before animate() is called.
+            // This eliminates the dark/incomplete globe flash on first load.
+            const loaderBarFill = document.getElementById('loader-bar-fill');
+            const loaderPct     = document.getElementById('loader-pct');
+            const loaderEl      = document.getElementById('canoppy-loader');
+
+            let texLoadedCount = 0;
+            const TEX_TOTAL = 3;
+
+            function onTexProgress() {
+                texLoadedCount++;
+                const pct = Math.round((texLoadedCount / TEX_TOTAL) * 100);
+                if (loaderBarFill) loaderBarFill.style.width = pct + '%';
+                if (loaderPct)     loaderPct.textContent = pct + '%';
+                if (texLoadedCount >= TEX_TOTAL) onAllTexturesReady();
+            }
+
+            function onAllTexturesReady() {
+                // Instantly set uniforms to 1.0 (no fade-in — textures are pre-loaded)
+                earthUniforms.uDayTextureLoaded.value   = 1.0;
+                earthUniforms.uNightTextureLoaded.value = 1.0;
+                earthUniforms.uBumpTextureLoaded.value  = 1.0;
+
+                // Start the render + scroll timeline ONLY after textures are ready
+                animate(0);
+
+                // Fade out the loading screen
+                setTimeout(() => {
+                    if (loaderEl) {
+                        loaderEl.classList.add('fade-out');
+                        setTimeout(() => {
+                            if (loaderEl && loaderEl.parentNode) loaderEl.parentNode.removeChild(loaderEl);
+                        }, 850);
+                    }
+                }, 200);
+            }
+
             const texLoader = new THREE.TextureLoader();
 
-            texLoader.load('assets/images/earth-blue-marble.jpg', (tex) => {
+            texLoader.load('assets/images/earth-blue-marble.webp', (tex) => {
+                tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                tex.generateMipmaps = true;
+                tex.needsUpdate = true;
                 earthUniforms.uDayTexture.value = tex;
-                gsap.to(earthUniforms.uDayTextureLoaded, { value: 1.0, duration: 1.5 });
-            }, undefined, (err) => console.warn("Day map fail load:", err));
+                onTexProgress();
+            }, undefined, (err) => { console.warn('Day map load failed:', err); onTexProgress(); });
 
-            texLoader.load('assets/images/earth-night.jpg', (tex) => {
+            texLoader.load('assets/images/earth-night.webp', (tex) => {
+                tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                tex.generateMipmaps = true;
+                tex.needsUpdate = true;
                 earthUniforms.uNightTexture.value = tex;
-                gsap.to(earthUniforms.uNightTextureLoaded, { value: 1.0, duration: 1.5 });
-            }, undefined, (err) => console.warn("Night map fail load:", err));
+                onTexProgress();
+            }, undefined, (err) => { console.warn('Night map load failed:', err); onTexProgress(); });
 
-            texLoader.load('assets/images/earth-topology.png', (tex) => {
+            texLoader.load('assets/images/earth-topology.webp', (tex) => {
+                tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                tex.generateMipmaps = true;
+                tex.needsUpdate = true;
                 earthUniforms.uBumpTexture.value = tex;
-                gsap.to(earthUniforms.uBumpTextureLoaded, { value: 1.0, duration: 1.5 });
-            }, undefined, (err) => console.warn("Topology map fail load:", err));
+                onTexProgress();
+            }, undefined, (err) => { console.warn('Topology map load failed:', err); onTexProgress(); });
 
 
             // ================== SCENE 2: REAL CANOPPY PHOTO (CSS overlay — no 3D geometry needed) ==================
@@ -2403,10 +2550,10 @@
             }, 0.80);
 
 
-            // --- Start Animation Loop ---
+            // --- Animation Loop (started by onAllTexturesReady, not here) ---
             let idleAngle = 0;
             let smoothProgress = 0;
-            animate(0);
+            // animate(0) is now called from onAllTexturesReady() above, after textures load.
 
             function animate(time) {
                 requestAnimationFrame(animate);
